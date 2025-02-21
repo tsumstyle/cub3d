@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/02/21 12:52:50 by aroux            ###   ########.fr       */
+/*   Updated: 2025/02/21 14:45:58 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,11 @@ typedef struct s_data
 	/* window and mlx vars */
 	void	*mlx;
 	void	*win;
-	void	*img;
+	void	*img;	// image buffer
+	char	*addr; 	// image data address
+	int		bpp;	// bits per pixel
+	int		line_len;
+	int		endian;
 }		t_data;
 
 
@@ -68,15 +72,18 @@ typedef struct s_data
 /*  PROTOTYPES  */
 /****************/
 
-int		close_program(t_data *data);
+
 void	data_init(t_data *data);
 
 void	hook_events(t_data *data);
 int		key_press(int keycode, t_data *data);
+int		close_program(t_data *data);
 
 void	free_data(t_data *data);
 
-
+// draw image
+void	put_pixel(t_data *data, int x, int y, int color);
+int		render_image(t_data *data);
 
 
 #endif

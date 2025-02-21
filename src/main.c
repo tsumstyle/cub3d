@@ -6,11 +6,26 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/02/21 13:03:35 by aroux            ###   ########.fr       */
+/*   Updated: 2025/02/21 14:54:48 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+/* The beginning of Cub3D is a mix of concepts from Fract-ol and So Long:
+
+    From Fract-ol:
+    ✅ Using MiniLibX to create a window and draw pixels
+    ✅ Modifying an image buffer before displaying it
+
+    From So Long:
+    ✅ Handling player movement with keyboard inputs
+    ✅ Parsing a map file and rendering a grid-based world
+
+Once these basics are done, Cub3D goes further with:
+✅ Ray-casting to create a 3D perspective
+✅ Textures & shading for walls
+✅ Advanced movement (rotation, strafing, collisions, etc.) */
 
 int	main(void)
 {
@@ -18,6 +33,7 @@ int	main(void)
 
 	data_init(&data);
 	hook_events(&data);
+	mlx_loop_hook(data.mlx, render_image, &data);
 	mlx_loop(data.mlx);
 
 	return (0);
@@ -28,12 +44,15 @@ void	data_init(t_data *data)
 	data->mlx = NULL;
 	data->img = NULL;
 	data->win = NULL;
+	data->line_len = WIDTH;
+	// intializind the connection
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
 	{
 		perror("Malloc failed");
 		exit (1);
 	}
+	// opening new window:
 	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Cub3D");
 	if (data->win == NULL)
 	{
@@ -42,6 +61,18 @@ void	data_init(t_data *data)
 		perror("Malloc failed");
 		exit (1);
 	}
+	// initialize image buffer: creating image buffer (init data->img) and getting its memory address (data->addr)
+	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	if (!data->img)
+	{
+		mlx_destroy_window(data->mlx, data->win);
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
+		perror("Image creation failed");
+		exit (1);
+	}
+	// stores the address of the image:
+	data->addr = mlx_get_data_addr(data->img, &data->bpp, &data->line_len, &data->endian);
 }
 
 /* function to define the different hook events: 
@@ -95,4 +126,39 @@ void	free_data(t_data *data)
 		free(data->mlx);
 		data->mlx = NULL;
 	}
+}
+
+/* As in fractol, we draw and color each pixel of the image buffer individually 
+	before loading the image to the window */
+void	put_pixel(t_data *data, int x, int y, int color)
+{
+	char	*pxl;
+
+	pxl = data->addr + (y * data->line_len + x * (data->bpp / 8));
+	*(unsigned int *)pxl = color;
+}
+
+/* We iterate through each line of the image and draw pixel by pixel, then line 
+	by line */
+int	render_image(t_data *data)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			if (y < 300)
+				put_pixel(data, x, y, 0x00FF00); // color in green the top half
+			else
+				put_pixel(data, x, y, 0x0000FF);	// color in blue the bottom half
+			x++;
+		}
+		y++;
+	}
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0); // function of the mlx library
+	return (0);
 }
