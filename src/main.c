@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/02/21 14:54:48 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/10 18:57:28 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ Once these basics are done, Cub3D goes further with:
 int	main(void)
 {
 	t_data	data;
-
 	data_init(&data);
 	hook_events(&data);
 	mlx_loop_hook(data.mlx, render_image, &data);
@@ -41,6 +40,7 @@ int	main(void)
 
 void	data_init(t_data *data)
 {
+	data->gc_list = NULL;
 	data->mlx = NULL;
 	data->img = NULL;
 	data->win = NULL;
@@ -103,6 +103,7 @@ int	key_press(int keycode, t_data *data)
 
 int	close_program(t_data *data)
 {
+	gc_free_all(data);
 	free_data(data);  //free whatever we need to before exiting. Garbage collector?
 	exit(0);
 	return (0);

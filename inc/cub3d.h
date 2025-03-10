@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/02/21 14:45:58 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/10 18:58:57 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,15 @@
 /****************/
 /*  STRUCTURES  */
 /****************/
+typedef struct s_gc
+{
+	void		*ptr;
+	struct s_gc	*next;
+}		t_gc;
+
 typedef struct s_data
 {
+	t_gc	*gc_list;	// garbage collector
 	/* window and mlx vars */
 	void	*mlx;
 	void	*win;
@@ -85,5 +92,10 @@ void	free_data(t_data *data);
 void	put_pixel(t_data *data, int x, int y, int color);
 int		render_image(t_data *data);
 
+
+// garbage collector
+void	*gc_malloc(t_data *data, size_t size);
+void	gc_free_all(t_data *data);
+void	gc_free(t_data *data, void *ptr);
 
 #endif
