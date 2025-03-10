@@ -6,13 +6,13 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:34:20 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/10 16:43:24 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/10 16:47:06 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-void	f_check_command_line_argument(int argc, char **argv, t_data *data)
+void	f_check_command_line_arguments(int argc, char **argv, t_data *data)
 {
 	if (argc > 3)
 		ft_exit(data, "Error\nToo many commandline arguments\n");
