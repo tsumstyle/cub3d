@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/10 18:57:28 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/11 14:31:32 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,15 @@ Once these basics are done, Cub3D goes further with:
 ✅ Textures & shading for walls
 ✅ Advanced movement (rotation, strafing, collisions, etc.) */
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_data	data;
+	
 	data_init(&data);
-	hook_events(&data);
-	mlx_loop_hook(data.mlx, render_image, &data);
-	mlx_loop(data.mlx);
+	f_parser(&data, argv[1]);
+	//hook_events(&data);
+	//mlx_loop_hook(data.mlx, render_image, &data);
+	//mlx_loop(data.mlx);
 
 	return (0);
 }

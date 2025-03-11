@@ -6,11 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/03/11 12:12:26 by bbierman         ###   ########.fr       */
-=======
-/*   Updated: 2025/03/10 18:58:57 by aroux            ###   ########.fr       */
->>>>>>> 7b0848605beebdf6e5620d5e5800c3068a914024
+/*   Updated: 2025/03/11 14:29:46 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +60,11 @@ typedef struct s_gc
 	struct s_gc	*next;
 }		t_gc;
 
+typedef struct s_map
+{
+	char	**map;
+}		t_map;
+
 typedef struct s_data
 {
 	t_gc	*gc_list;	// garbage collector
@@ -75,9 +76,8 @@ typedef struct s_data
 	int		bpp;	// bits per pixel
 	int		line_len;
 	int		endian;
+	t_map	map;
 }		t_data;
-
-
 
 /****************/
 /*  PROTOTYPES  */
@@ -98,6 +98,12 @@ int		render_image(t_data *data);
 
 /*  PARSE  */
 void	f_check_command_line_arguments(int argc, char **argv, t_data *data);
+int		f_count_lines(const char *filename);
+void	load_map(t_data *data, const char *filename);
+void	f_parser(t_data *data, const char *filename);
+
+/*  PRINT  */
+void	print_char_array(char **arr);
 
 /*  UTILS  */
 char	**f_split_nl(char const *s, char c);
