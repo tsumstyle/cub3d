@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/02/21 14:45:58 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/11 12:12:26 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,10 @@ void	free_data(t_data *data);
 void	put_pixel(t_data *data, int x, int y, int color);
 int		render_image(t_data *data);
 
+/*  PARSE  */
+void	f_check_command_line_arguments(int argc, char **argv, t_data *data);
+
+/*  UTILS  */
+char	**f_split_nl(char const *s, char c);
 
 #endif
