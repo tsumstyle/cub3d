@@ -6,7 +6,11 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/03/11 12:12:26 by bbierman         ###   ########.fr       */
+=======
+/*   Updated: 2025/03/10 18:58:57 by aroux            ###   ########.fr       */
+>>>>>>> 7b0848605beebdf6e5620d5e5800c3068a914024
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +58,15 @@
 /****************/
 /*  STRUCTURES  */
 /****************/
+typedef struct s_gc
+{
+	void		*ptr;
+	struct s_gc	*next;
+}		t_gc;
+
 typedef struct s_data
 {
+	t_gc	*gc_list;	// garbage collector
 	/* window and mlx vars */
 	void	*mlx;
 	void	*win;
@@ -90,5 +101,10 @@ void	f_check_command_line_arguments(int argc, char **argv, t_data *data);
 
 /*  UTILS  */
 char	**f_split_nl(char const *s, char c);
+
+// garbage collector
+void	*gc_malloc(t_data *data, size_t size);
+void	gc_free_all(t_data *data);
+void	gc_free(t_data *data, void *ptr);
 
 #endif

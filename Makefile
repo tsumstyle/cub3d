@@ -6,7 +6,11 @@
 #    By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2025/03/11 12:10:55 by bbierman         ###   ########.fr        #
+=======
+#    Updated: 2025/03/10 18:54:28 by aroux            ###   ########.fr        #
+>>>>>>> 7b0848605beebdf6e5620d5e5800c3068a914024
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +26,15 @@ MLX = $(MLX_DIR)/libmlx.a
 LFLAGS = -L$(MLX_DIR) -lmlx -L/usr/X11/lib -lXext -lX11 -lm	#external libraries
 
 SRC_DIR = src
+<<<<<<< HEAD
 SRC = $(SRC_DIR)/main.c
 	$(SRC_DIR)/parse/f_check_command_line_arguments.c
 	$(SRC_DIR)/utils/f_split_nl.c
+=======
+SRC = $(SRC_DIR)/main.c \
+	  $(SRC_DIR)/gc.c 
+
+>>>>>>> 7b0848605beebdf6e5620d5e5800c3068a914024
 
 OBJ_DIR = obj
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
