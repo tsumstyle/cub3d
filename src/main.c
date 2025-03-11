@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/11 14:31:32 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:39:51 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 	
+	if (f_check_command_line_arguments(argc, argv) != 0)
+		return (1);
 	data_init(&data);
 	f_parser(&data, argv[1]);
 	//hook_events(&data);

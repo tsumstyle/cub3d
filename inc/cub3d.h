@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/11 14:29:46 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:40:02 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	put_pixel(t_data *data, int x, int y, int color);
 int		render_image(t_data *data);
 
 /*  PARSE  */
-void	f_check_command_line_arguments(int argc, char **argv, t_data *data);
+int	f_check_command_line_arguments(int argc, char **argv);
 int		f_count_lines(const char *filename);
 void	load_map(t_data *data, const char *filename);
 void	f_parser(t_data *data, const char *filename);
