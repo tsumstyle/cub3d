@@ -6,13 +6,13 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:21:55 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/11 14:22:44 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/12 20:07:13 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-void print_char_array(char **arr)
+void f_print_map(char **arr)
 {
 	int i = 0;
 
@@ -20,7 +20,7 @@ void print_char_array(char **arr)
 		return;
 	while (arr[i])
 	{
-		printf("%s\n", arr[i]);
+		printf("%s", arr[i]);
 		i++;
 	}
 }

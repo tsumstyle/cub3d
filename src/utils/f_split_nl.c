@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 09:28:35 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/11 12:09:08 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/12 19:30:45 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ static char	*fill_word(char const *s, int start, int end)
 
 static char	**fill_array(char **split, char const *s, char c)
 {
-	size_t	i;
-	int		j;
-	int		index;
-	int		wordcount;
+	int	i;
+	int	j;
+	int	index;
+	int	wordcount;
 
 	i = 0;
 	j = 0;

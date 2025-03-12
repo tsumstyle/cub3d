@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/11 14:40:02 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/12 19:45:10 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ typedef struct s_data
 	void	*mlx;
 	void	*win;
 	void	*img;	// image buffer
-	char	*addr; 	// image data address
-	int		bpp;	// bits per pixel
+	//char	*addr; 	// image data address
+	//int		bpp;	// bits per pixel
 	int		line_len;
-	int		endian;
+	//int		endian;
 	t_map	map;
 }		t_data;
 
@@ -88,7 +88,7 @@ void	data_init(t_data *data);
 
 void	hook_events(t_data *data);
 int		key_press(int keycode, t_data *data);
-int		close_program(t_data *data);
+int		close_program(t_data *data, char *msg);
 
 void	free_data(t_data *data);
 
@@ -97,13 +97,13 @@ void	put_pixel(t_data *data, int x, int y, int color);
 int		render_image(t_data *data);
 
 /*  PARSE  */
-int	f_check_command_line_arguments(int argc, char **argv);
+int		f_check_command_line_arguments(int argc, char **argv);
 int		f_count_lines(const char *filename);
-void	load_map(t_data *data, const char *filename);
+void	f_load_map(t_data *data, const char *filename);
 void	f_parser(t_data *data, const char *filename);
 
 /*  PRINT  */
-void	print_char_array(char **arr);
+void	f_print_map(char **arr);
 
 /*  UTILS  */
 char	**f_split_nl(char const *s, char c);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/11 14:39:51 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/12 20:44:01 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,15 @@
 Once these basics are done, Cub3D goes further with:
 ✅ Ray-casting to create a 3D perspective
 ✅ Textures & shading for walls
-✅ Advanced movement (rotation, strafing, collisions, etc.) */
+✅ Advanced movement (rotation, strafing, collisions, etc.) 
+
+UPDATE 1203 B:
+	- Changed get_next_line
+	- Map is loading
+	- No memory leaks
+
+NEXT STEPS:
+	- Extract textures, colors, and the map from the dummy map */
 
 int	main(int argc, char **argv)
 {
@@ -38,7 +46,7 @@ int	main(int argc, char **argv)
 	//hook_events(&data);
 	//mlx_loop_hook(data.mlx, render_image, &data);
 	//mlx_loop(data.mlx);
-
+	close_program(&data, "bye bye");
 	return (0);
 }
 
@@ -49,8 +57,9 @@ void	data_init(t_data *data)
 	data->img = NULL;
 	data->win = NULL;
 	data->line_len = WIDTH;
+	data->map.map = NULL;
 	// intializind the connection
-	data->mlx = mlx_init();
+	/*data->mlx = mlx_init();
 	if (data->mlx == NULL)
 	{
 		perror("Malloc failed");
@@ -76,7 +85,7 @@ void	data_init(t_data *data)
 		exit (1);
 	}
 	// stores the address of the image:
-	data->addr = mlx_get_data_addr(data->img, &data->bpp, &data->line_len, &data->endian);
+	data->addr = mlx_get_data_addr(data->img, &data->bpp, &data->line_len, &data->endian);*/
 }
 
 /* function to define the different hook events: 
@@ -105,16 +114,20 @@ int	key_press(int keycode, t_data *data)
 	return (0);
 }
 
-int	close_program(t_data *data)
+int	close_program(t_data *data, char *msg)
 {
+	printf("%s", msg);
+	free_data(data); //free whatever we need to before exiting. Garbage collector?
 	gc_free_all(data);
-	free_data(data);  //free whatever we need to before exiting. Garbage collector?
 	exit(0);
 	return (0);
 }
 
 void	free_data(t_data *data)
 {
+	int	i;
+
+	i = 0;
 	if (data->img)
 	{
 		mlx_destroy_image(data->mlx, data->img);
@@ -131,20 +144,30 @@ void	free_data(t_data *data)
 		free(data->mlx);
 		data->mlx = NULL;
 	}
+	if (data->map.map) //1203 B: It's not pretty, but I'm not in the mood to change get_next_line to make it work properly with the garbage collector. Sorry! :(
+	{
+		i = 0;
+		while (data->map.map[i])
+		{
+			free(data->map.map[i]);
+			i++;
+		}
+		free(data->map.map); 
+	}
 }
 
 /* As in fractol, we draw and color each pixel of the image buffer individually 
-	before loading the image to the window */
+	before loading the image to the window 
 void	put_pixel(t_data *data, int x, int y, int color)
 {
 	char	*pxl;
 
 	pxl = data->addr + (y * data->line_len + x * (data->bpp / 8));
 	*(unsigned int *)pxl = color;
-}
+}*/
 
 /* We iterate through each line of the image and draw pixel by pixel, then line 
-	by line */
+	by line 
 int	render_image(t_data *data)
 {
 	int	x;
@@ -166,4 +189,4 @@ int	render_image(t_data *data)
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0); // function of the mlx library
 	return (0);
-}
+}*/

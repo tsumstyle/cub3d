@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
+#    By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/03/11 14:57:31 by aroux            ###   ########.fr        #
+#    Updated: 2025/03/12 19:43:17 by bbierman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
 CC = cc
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra -g
 
 INCLUDES = -Iincludes -Iminilibx-linux
 LIBFT_DIR = inc/libft
@@ -32,19 +32,22 @@ SRC = $(SRC_DIR)/main.c \
 
 OBJ_DIR = obj
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
-OBJ_DIRS = $(sort $(dir $(OBJ)))
+OBJ_DIRS = obj obj/parse obj/utils
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LFLAGS) -o $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+# Regel zur Erstellung der Objektdateien
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)/parse $(OBJ_DIR)/utils
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+
 $(OBJ_DIRS):
 	@mkdir -p $@
+	@echo "Creating directory: $@"
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
