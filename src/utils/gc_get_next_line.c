@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:37:49 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/12 20:32:36 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:18:59 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "cub3d.h"
 
 static char	*ft_join_buffer(char *s1, char *s2);
 static char	*ft_read_file(int fd, char *buffer);
-static char	*ft_get_myline(char *buffer);
+static char	*ft_get_myline(t_data *data, char *buffer);
 static char	*ft_get_tail(char *buffer);
 
-char	*get_next_line(int fd)
+char	*gc_gnl(t_data * data, int fd)
 {
 	char		*buffer;
 	char		*line;
@@ -37,7 +37,7 @@ char	*get_next_line(int fd)
 	free(tail);
 	tail = NULL;
 	buffer = ft_read_file(fd, buffer);
-	line = ft_get_myline(buffer);
+	line = ft_get_myline(data, buffer);
 	tail = ft_get_tail(buffer);
 	free(buffer);
 	buffer = NULL;
@@ -84,7 +84,7 @@ static char	*ft_read_file(int fd, char *buffer)
 	return (buffer);
 }
 
-static char	*ft_get_myline(char *buffer)
+static char	*ft_get_myline(t_data *data, char *buffer)
 {
 	int		i;
 	char	*line;
@@ -94,7 +94,7 @@ static char	*ft_get_myline(char *buffer)
 	i = 0;
 	while (buffer[i] != '\0' && buffer[i] != '\n')
 		i++;
-	line = malloc(i + 2 * sizeof(char));
+	line = gc_malloc(data, i + 2 * sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;

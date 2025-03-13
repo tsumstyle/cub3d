@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+         #
+#    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/03/12 19:43:17 by bbierman         ###   ########.fr        #
+#    Updated: 2025/03/13 13:19:25 by aroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = cub3d
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -g
 
-INCLUDES = -Iincludes -Iminilibx-linux
+INCLUDES = -Iinc -I$(MLX_DIR)
 LIBFT_DIR = inc/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 MLX_DIR = inc/minilibx-linux
@@ -28,7 +28,8 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/parse/f_parser.c \
 	$(SRC_DIR)/parse/f_print_map.c \
 	$(SRC_DIR)/utils/f_split_nl.c \
-	$(SRC_DIR)/gc.c
+	$(SRC_DIR)/utils/gc_get_next_line.c \
+	$(SRC_DIR)/utils/gc.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
@@ -65,7 +66,7 @@ fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) maps/good/library.cub
 
 re: fclean all
 

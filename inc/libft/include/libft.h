@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 17:15:20 by aroux             #+#    #+#             */
-/*   Updated: 2024/09/19 16:14:03 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/13 13:02:44 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <stdint.h>
-# include "get_next_line.h"
 # include "ft_printf.h"
 
 typedef struct s_list

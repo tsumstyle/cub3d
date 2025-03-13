@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   f_print_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:21:55 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/12 20:07:13 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:56:44 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "cub3d.h"
 
 void f_print_map(char **arr)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/12 19:45:10 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:18:32 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 # define CUB3D_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10000
+# endif
+
 /***************/
 /*  LIBRARIES  */
 /***************/
 # include "minilibx-linux/mlx.h"
 # include "libft/include/libft.h"
 # include "libft/include/ft_printf.h"
-# include "libft/include/get_next_line.h"
-
 # include <fcntl.h>
+# include <unistd.h>
 # include <stdlib.h>
 # include <math.h>
 # include <stdio.h>
@@ -98,7 +101,7 @@ int		render_image(t_data *data);
 
 /*  PARSE  */
 int		f_check_command_line_arguments(int argc, char **argv);
-int		f_count_lines(const char *filename);
+int		f_count_lines(t_data *data, const char *filename);
 void	f_load_map(t_data *data, const char *filename);
 void	f_parser(t_data *data, const char *filename);
 
@@ -112,5 +115,8 @@ char	**f_split_nl(char const *s, char c);
 void	*gc_malloc(t_data *data, size_t size);
 void	gc_free_all(t_data *data);
 void	gc_free(t_data *data, void *ptr);
+
+// get_net_line
+char	*gc_gnl(t_data *data, int fd);
 
 #endif

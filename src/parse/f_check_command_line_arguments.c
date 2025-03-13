@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   f_check_command_line_arguments.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:34:20 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/12 19:34:28 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:56:22 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "cub3d.h"
 
 int	f_check_command_line_arguments(int argc, char **argv)
 {

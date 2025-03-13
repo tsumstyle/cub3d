@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   f_split_nl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 09:28:35 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/12 19:30:45 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:51:13 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
+#include "../inc/cub3d.h"
 
 static char	**free_array(char **arr, int i);
 static unsigned int	word_count(char const *s, char c);

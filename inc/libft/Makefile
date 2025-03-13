@@ -6,7 +6,7 @@
 #    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/23 16:59:42 by aroux             #+#    #+#              #
-#    Updated: 2024/09/13 09:09:51 by aroux            ###   ########.fr        #
+#    Updated: 2025/03/13 13:07:31 by aroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,6 @@ SRC = 	$(SRC_DIR)/ft_atoi.c \
 		$(SRC_DIR)/ft_lstmap.c \
 		$(SRC_DIR)/ft_printf.c \
 		$(SRC_DIR)/ft_printf_utils.c \
-		$(SRC_DIR)/get_next_line.c \
 # SRC := $(addprefix src/ft_, $(SRC))
 
 OBJ = $(SRC:.c=.o)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/12 20:44:01 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:56:56 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3d.h"
+#include "cub3d.h"
 
 /* The beginning of Cub3D is a mix of concepts from Fract-ol and So Long:
 
@@ -144,7 +144,7 @@ void	free_data(t_data *data)
 		free(data->mlx);
 		data->mlx = NULL;
 	}
-	if (data->map.map) //1203 B: It's not pretty, but I'm not in the mood to change get_next_line to make it work properly with the garbage collector. Sorry! :(
+	/*if (data->map.map) //1203 B: It's not pretty, but I'm not in the mood to change get_next_line to make it work properly with the garbage collector. Sorry! :(
 	{
 		i = 0;
 		while (data->map.map[i])
@@ -153,7 +153,7 @@ void	free_data(t_data *data)
 			i++;
 		}
 		free(data->map.map); 
-	}
+	}*/
 }
 
 /* As in fractol, we draw and color each pixel of the image buffer individually 
