@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/13 13:18:32 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/13 16:34:36 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,31 @@ void	free_data(t_data *data);
 void	put_pixel(t_data *data, int x, int y, int color);
 int		render_image(t_data *data);
 
+/***********/
 /*  PARSE  */
+/***********/
 int		f_check_command_line_arguments(int argc, char **argv);
 int		f_count_lines(t_data *data, const char *filename);
 void	f_load_map(t_data *data, const char *filename);
+
+/*  PARSER  */
 void	f_parser(t_data *data, const char *filename);
+int		get_max_line_len(char **map, int n);
 
 /*  PRINT  */
 void	f_print_map(char **arr);
 
+/*  CHECK MAP  */
+int		check_map(char **map, int n);
+int		check_first_last_row(char **map, int n);
+int		check_first_last_col(char **map, int n);
+int		check_player(char **map, int n);
+int		check_holes(char **map, int n);
+
+
+/***********/
 /*  UTILS  */
+/***********/
 char	**f_split_nl(char const *s, char c);
 
 // garbage collector

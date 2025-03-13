@@ -6,7 +6,7 @@
 #    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/03/13 13:19:25 by aroux            ###   ########.fr        #
+#    Updated: 2025/03/13 15:28:16 by aroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/parse/f_load_map.c \
 	$(SRC_DIR)/parse/f_parser.c \
 	$(SRC_DIR)/parse/f_print_map.c \
+	$(SRC_DIR)/parse/check_map.c \
 	$(SRC_DIR)/utils/f_split_nl.c \
 	$(SRC_DIR)/utils/gc_get_next_line.c \
 	$(SRC_DIR)/utils/gc.c
