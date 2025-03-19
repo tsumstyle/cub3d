@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f_split_nl.c                                       :+:      :+:    :+:   */
+/*   split_nl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 09:28:35 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/13 12:51:13 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/19 12:27:18 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-static char	**free_array(char **arr, int i);
+static char			**free_array(char **arr, int i);
 static unsigned int	word_count(char const *s, char c);
-static char	*fill_word(char const *s, int start, int end);
-static char	**fill_array(char **split, char const *s, char c);
+static char			*fill_word(char const *s, int start, int end);
+static char			**fill_array(char **split, char const *s, char c);
 
-char	**f_split_nl(char const *s, char c)
+char	**split_nl(char const *s, char c)
 {
 	unsigned int	wordcount;
 	char			**return_array;

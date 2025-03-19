@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f_parser.c                                         :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:23:25 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/13 16:33:46 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/19 15:58:08 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	f_parser(t_data *data, const char *filename)
-{
-	int	n_lines;
+// TODO: 1903A: test invalid .cub files ("bad maps") and see 
+// if error handling works properly for all 
 
-	n_lines = f_count_lines(data, filename);
-	f_load_map(data, filename);
-	f_print_map(data->map.map);
-	// check map is valid
-	if (!data->map.map || !data->map.map[0])
-		close_program(data, "Error\nEmpty map\n");
-	if (check_map(data->map.map, n_lines) == 1)
-		close_program(data, "Error\nInvalid map:\nShould have enclosed walls");
-	if (check_map(data->map.map, n_lines) == 2)
-		close_program(data, "Error\nInvalid map:\nShould have one unique \
-			player");
-	// 
+void	parser(t_data *data, const char *filename)
+{
+	int	n;
+
+	n = count_lines(data, filename);
+	// map.file -> loaded already
+	// map.map -> TODO: load the map itself
+	load_cub_file(data, filename);
+	load_map(data, n);
+	print_cub_file(data->map.file);
+	if (!data->map.file || !data->map.file[0])
+		close_program(data, "Error\nEmpty .cub file\n");
+	if (check_each_line(data, n) == 1)
+		close_program(data, "Error\nInvalid .cub file\n");
+	if (check_map(data->map.map, data->map.n_map_lines) == 1)
+		close_program(data, "Error\nInvalid map: Should have enclosed walls\n");
+	if (check_map(data->map.map, data->map.n_map_lines) == 2)
+		close_program(data, "Error\nInvalid map: Should have one unique \
+			player\n");
+	print_parsing_result(data);
 }
 
 int	get_max_line_len(char **map, int n)

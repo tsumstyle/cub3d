@@ -6,7 +6,7 @@
 #    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/03/13 15:28:16 by aroux            ###   ########.fr        #
+#    Updated: 2025/03/19 13:24:54 by aroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,17 @@ LFLAGS = -L$(MLX_DIR) -lmlx -L/usr/X11/lib -lXext -lX11 -lm	#external libraries
 
 SRC_DIR = src
 SRC = $(SRC_DIR)/main.c \
-	$(SRC_DIR)/parse/f_check_command_line_arguments.c \
-	$(SRC_DIR)/parse/f_load_map.c \
-	$(SRC_DIR)/parse/f_parser.c \
-	$(SRC_DIR)/parse/f_print_map.c \
+	$(SRC_DIR)/parse/check_cmdline_args.c \
+	$(SRC_DIR)/parse/load_cub_file.c \
+	$(SRC_DIR)/parse/parser.c \
+	$(SRC_DIR)/parse/print_cub_file.c \
+	$(SRC_DIR)/parse/check_each_line.c \
+	$(SRC_DIR)/parse/check_line_is_valid.c \
 	$(SRC_DIR)/parse/check_map.c \
-	$(SRC_DIR)/utils/f_split_nl.c \
+	$(SRC_DIR)/parse/parse_line.c \
+	$(SRC_DIR)/utils/split_nl.c \
 	$(SRC_DIR)/utils/gc_get_next_line.c \
+	$(SRC_DIR)/utils/gc_strtrim.c \
 	$(SRC_DIR)/utils/gc.c
 
 OBJ_DIR = obj

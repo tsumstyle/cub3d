@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   gc_get_next_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 11:37:49 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/13 13:18:59 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/19 15:56:47 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*ft_read_file(int fd, char *buffer);
 static char	*ft_get_myline(t_data *data, char *buffer);
 static char	*ft_get_tail(char *buffer);
 
-char	*gc_gnl(t_data * data, int fd)
+char	*gc_gnl(t_data *data, int fd)
 {
 	char		*buffer;
 	char		*line;

@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/13 13:42:22 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/19 12:46:32 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 	
-	if (f_check_command_line_arguments(argc, argv) != 0)
+	if (check_command_line_arguments(argc, argv) != 0)
 		return (1);
 	data_init(&data);
-	f_parser(&data, argv[1]);
+	parser(&data, argv[1]);
 	//hook_events(&data);
 	//mlx_loop_hook(data.mlx, render_image, &data);
 	//mlx_loop(data.mlx);
@@ -57,6 +57,7 @@ void	data_init(t_data *data)
 	data->img = NULL;
 	data->win = NULL;
 	data->line_len = WIDTH;
+	data->map.file = NULL;
 	data->map.map = NULL;
 	// intializind the connection
 	/*data->mlx = mlx_init();
