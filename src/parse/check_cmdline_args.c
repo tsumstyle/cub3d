@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f_check_command_line_arguments.c                   :+:      :+:    :+:   */
+/*   check_cmdline_args.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:34:20 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/13 12:56:22 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/19 12:25:05 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	f_check_command_line_arguments(int argc, char **argv)
+int	check_command_line_arguments(int argc, char **argv)
 {
 	if (argc != 2)
 	{

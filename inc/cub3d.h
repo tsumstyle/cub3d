@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/21 11:05:37 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:20:54 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdbool.h>
 # include <math.h>
 # include <stdio.h>
 # include <X11/X.h>
@@ -37,8 +38,13 @@
 /* 	 MACROS	   */
 /***************/
 /* MACROS: general */
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 1280
+# define HEIGHT 720
+
+# define MINI_TILE_SIZE 32
+# define MINI_PLAYER_SIZE 12
+# define MINI_FLOOR_COLOR 0x444444
+# define MINI_WALL_COLOR 0xAAAAAA
 
 /* MACROS: linux keys */
 # define ESC XK_Escape
@@ -62,16 +68,31 @@
 /****************/
 /*  STRUCTURES  */
 /****************/
+/* garbage collector */
 typedef struct s_gc
 {
 	void		*ptr;
 	struct s_gc	*next;
 }		t_gc;
 
+/* map */
 typedef struct s_map
 {
+	char	**file;
 	char	**map;
+	int		n_map_lines;
+	int		height;
+	int		width;
 }		t_map;
+
+typedef struct s_img
+{
+	void	*ptr;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}	t_img;
 
 typedef struct s_player
 {
@@ -85,26 +106,45 @@ typedef struct s_player
 	double	rot_speed;
 }		t_player;
 
+/* parsing: type of line in the .cub file */
+typedef enum t_line
+{
+	L_EMPTY = 0,
+	L_ERROR = 1,
+	L_FLOOR = 2,
+	L_CEILING = 3,
+	L_TEXT_NO = 4,
+	L_TEXT_SO = 5,
+	L_TEXT_EA = 6,
+	L_TEXT_WE = 7,
+	L_MAP = 8
+}	t_line;
+
+/* data */
 typedef struct s_data
 {
 	t_gc		*gc_list;	// garbage collector
 	/* window and mlx vars */
 	void		*mlx;
 	void		*win;
-	void		*img;	// image buffer
-	//char		*addr; 	// image data address
-	//int		bpp;	// bits per pixel
+	t_img		img;	// image buffer
+	char		*addr; 	// image data address
+	int		bpp;	// bits per pixel
 	int			line_len;
-	//int		endian;
+	int		endian;
+	int		floor_color;
+	int		ceiling_color;
+	char	*no_text_path;
+	char	*so_text_path;
+	char	*ea_text_path;
+	char	*we_text_path;
+	t_map	map;
 	t_player	player;
-	t_map		map;
 }		t_data;
 
 /****************/
 /*  PROTOTYPES  */
 /****************/
-
-
 void	data_init(t_data *data);
 
 void	hook_events(t_data *data);
@@ -117,19 +157,72 @@ void	free_data(t_data *data);
 void	put_pixel(t_data *data, int x, int y, int color);
 int		render_image(t_data *data);
 
+
+/**********/
+/*  GAME  */
+/**********/
+
+/*  game_loop  */
+void	run_game(t_data *game);
+int		game_loop(t_data *game);
+void	ft_open_window(t_data *game);
+
+/**************/
+/*  MOVEMENT  */
+/**************/
+
+/*  handle_input  */
+int		handle_input(int keysym, t_data *game);
+
+/*  move_basic  */
+void	move_forward(t_player *player, char **map);
+void	move_backward(t_player *player, char **map);
+void	strafe_left(t_player *player, char **map);
+void	strafe_right(t_player *player, char **map);
+
+/*  move_rotate  */
+void	rotate_left(t_player *player);
+void	rotate_right(t_player *player);
+
 /***********/
 /*  PARSE  */
 /***********/
-int		f_check_command_line_arguments(int argc, char **argv);
-int		f_count_lines(t_data *data, const char *filename);
-void	f_load_map(t_data *data, const char *filename);
+
+/* CHECK CMDLINE ARGS */
+int		check_command_line_arguments(int argc, char **argv);
 
 /*  PARSER  */
-void	f_parser(t_data *data, const char *filename);
+void	parser(t_data *data, const char *filename);
 int		get_max_line_len(char **map, int n);
 
+/* LOAD CUB FILE */
+void	load_cub_file(t_data *data, const char *filename);
+void	load_map(t_data *data, int n);
+int		count_lines(t_data *data, const char *filename);
+void	set_map_width(t_data *game);
+
 /*  PRINT  */
-void	f_print_map(char **arr);
+void	print_cub_file(char **arr);
+void	print_parsing_result(t_data *data);
+
+/*  CHECK EACH LINE  */
+int		check_each_line(t_data *data, int n);
+int		get_line_type(char *line);
+int		is_rgb_number(char **line);
+char	*trim_spaces(char *str);
+
+/*  CHECK LINE IS VALID  */
+int		check_line_is_valid(char *line, int type);
+int		check_line_texture(char *line);
+int		check_line_floor(char *line);
+int		check_line_ceiling(char *line);
+
+/* PARSE LINE */
+void	parse_line(t_data *data, char *line, int type);
+void	parse_line_floor(t_data *data, char *line);
+void	parse_line_ceiling(t_data *data, char *line);
+void	parse_line_texture(t_data *data, char *line, int type);
+
 
 /*  CHECK MAP  */
 int		check_map(char **map, int n);
@@ -138,18 +231,32 @@ int		check_first_last_col(char **map, int n);
 int		check_player(char **map, int n);
 int		check_holes(char **map, int n);
 
+/************/
+/*  RENDER  */
+/************/
+
+/*  minimap  */
+void	draw_minimap(t_data *game);
+void	draw_square(t_data *game, int x, int y, int color);
+void	draw_minimap_player_and_pov(t_data *game);
+
+/*  render  */
+int		render_game(t_data *data);
 
 /***********/
 /*  UTILS  */
 /***********/
-char	**f_split_nl(char const *s, char c);
+char	**split_nl(char const *s, char c);
 
 // garbage collector
 void	*gc_malloc(t_data *data, size_t size);
 void	gc_free_all(t_data *data);
 void	gc_free(t_data *data, void *ptr);
 
-// get_net_line
+// gc_get_next_line
 char	*gc_gnl(t_data *data, int fd);
+
+// gc_strtrim
+char	*gc_strtrim(t_data *data, char const *s1, char const *set);
 
 #endif
