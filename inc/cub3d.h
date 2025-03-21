@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/13 16:34:36 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/21 11:05:37 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 
 /* MACROS: linux keys */
 # define ESC XK_Escape
+# define Q_KEY XK_q
 # define C_KEY 0x63
 # define PLUS XK_plus
 # define PLUS_NUM XK_KP_Add
@@ -52,6 +53,10 @@
 # define DOWN XK_Down
 # define RIGHT XK_Right
 # define LEFT XK_Left
+# define W_KEY XK_w
+# define A_KEY XK_a
+# define S_KEY XK_s
+# define D_KEY XK_d
 
 
 /****************/
@@ -68,18 +73,31 @@ typedef struct s_map
 	char	**map;
 }		t_map;
 
+typedef struct s_player
+{
+	double	x;
+	double	y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	move_speed;
+	double	rot_speed;
+}		t_player;
+
 typedef struct s_data
 {
-	t_gc	*gc_list;	// garbage collector
+	t_gc		*gc_list;	// garbage collector
 	/* window and mlx vars */
-	void	*mlx;
-	void	*win;
-	void	*img;	// image buffer
-	//char	*addr; 	// image data address
+	void		*mlx;
+	void		*win;
+	void		*img;	// image buffer
+	//char		*addr; 	// image data address
 	//int		bpp;	// bits per pixel
-	int		line_len;
+	int			line_len;
 	//int		endian;
-	t_map	map;
+	t_player	player;
+	t_map		map;
 }		t_data;
 
 /****************/
