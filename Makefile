@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+         #
+#    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/03/21 16:49:20 by bbierman         ###   ########.fr        #
+#    Updated: 2025/03/24 14:43:27 by aroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,26 +22,15 @@ MLX = $(MLX_DIR)/libmlx.a
 LFLAGS = -L$(MLX_DIR) -lmlx -L/usr/X11/lib -lXext -lX11 -lm	#external libraries
 
 SRC_DIR = src
-SRC = $(SRC_DIR)/main.c \
-	$(SRC_DIR)/game/game_loop.c \
-	$(SRC_DIR)/movement/handle_input.c \
-	$(SRC_DIR)/movement/move_basic.c \
-	$(SRC_DIR)/movement/move_rotate.c \
-	$(SRC_DIR)/parse/check_cmdline_args.c \
-	$(SRC_DIR)/parse/load_cub_file.c \
-	$(SRC_DIR)/parse/parser.c \
-	$(SRC_DIR)/parse/print_cub_file.c \
-	$(SRC_DIR)/parse/check_each_line.c \
-	$(SRC_DIR)/parse/check_line_is_valid.c \
-	$(SRC_DIR)/parse/check_map.c \
-	$(SRC_DIR)/parse/parse_line.c \
-	$(SRC_DIR)/render/minimap.c \
-	$(SRC_DIR)/render/render.c \
-	$(SRC_DIR)/utils/clean_up.c \
-	$(SRC_DIR)/utils/split_nl.c \
-	$(SRC_DIR)/utils/gc_get_next_line.c \
-	$(SRC_DIR)/utils/gc_strtrim.c \
-	$(SRC_DIR)/utils/gc.c
+SRC = src/main.c \
+	src/game/game_loop.c \
+	src/movement/handle_input.c		src/movement/move_basic.c   src/movement/move_rotate.c \
+	src/parse/check_cmdline_args.c	src/parse/load_cub_file.c   src/parse/parser.c \
+	src/parse/print_cub_file.c		src/parse/check_each_line.c src/parse/check_line_is_valid.c \
+	src/parse/check_map_last.c		src/parse/check_map.c       src/parse/parse_line.c      \
+	src/render/minimap.c			src/render/render.c \
+	src/utils/clean_up.c			src/utils/split_nl.c 		src/utils/gc_get_next_line.c \
+	src/utils/gc_strtrim.c 			src/utils/gc.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
@@ -78,7 +67,8 @@ fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) maps/good/library.cub
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+	./$(NAME) maps/good/library.cub
 
 re: fclean all
 

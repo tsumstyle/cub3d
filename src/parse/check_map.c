@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:27:32 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/19 15:59:14 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/24 11:26:03 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ int	check_first_last_row(char **map, int n)
 	j = 0;
 	while (map[0][j] && map[0][j] != '\n')
 	{
-		if (map[0][j] != '1' && map[0][j] != ' ')
+		if (map[0][j] != '1' && map[0][j] != ' ' && map[0][j] != '\t')
 			return (1);
 		j++;
 	}
 	j = 0;
 	while (map[n - 1][j] && map[n - 1][j] != '\n')
 	{
-		if (map[n - 1][j] != '1' && map[n - 1][j] != ' ')
+		if (map[n - 1][j] != '1' && map[n - 1][j] != ' ' && map[0][j] != '\t')
 			return (1);
 		j++;
 	}

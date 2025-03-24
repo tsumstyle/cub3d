@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_input.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:57:20 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/21 16:47:15 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:21:55 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	handle_input(int keysym, t_data *game)
 	if (keysym == RIGHT)
 		rotate_right(&game->player);
 	if (keysym == ESC || keysym == Q_KEY)
-		close_program(game, "bye bye");
+		close_program(game, "bye bye\n");
 	return (0);
 }
 

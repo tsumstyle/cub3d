@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:51:21 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/21 17:21:20 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:30:00 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	run_game(t_data *game)
 {
 	mlx_hook(game->win, KeyPress, KeyPressMask, handle_input, game);
-	mlx_hook(game->win, DestroyNotify, ButtonPressMask, close_program, game);
+	// 2403 A: there is a segfault when exiting below (cliking on the cross), but not when exiting with ESC...
+	mlx_hook(game->win, DestroyNotify, StructureNotifyMask, close_program, game);
 	mlx_loop(game->mlx);
 }
 /*

@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:43:18 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/19 15:13:06 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/24 14:04:56 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_line_floor(char *line)
 	line++;
 	if (!*line || *line != ' ')
 		return (1);
-	line++;
+	line = trim_spaces(line);
 	if (is_rgb_number(&line) == -1)
 		return (1);
 	if (*line != ',')
@@ -79,7 +79,7 @@ int	check_line_ceiling(char *line)
 	line++;
 	if (!*line || *line != ' ')
 		return (1);
-	line++;
+	line = trim_spaces(line);
 	if (is_rgb_number(&line) == -1)
 		return (1);
 	if (*line != ',')

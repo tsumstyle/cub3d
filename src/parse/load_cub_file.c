@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_cub_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:10:05 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/21 16:33:59 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/24 13:47:05 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	load_map(t_data *data, int n)
 		close_program(data, "Error\nCan't allocate memory for the map\n");
 	j = 0;
 	while (i < n && data->map.file[i] && \
-		get_line_type(data->map.file[i]) == L_MAP)
+	get_line_type(data->map.file[i]) == L_MAP)
 	{
 		data->map.map[j] = data->map.file[i];
 		i++;

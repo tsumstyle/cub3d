@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/21 17:20:54 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:09:07 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	hook_events(t_data *data);
 int		key_press(int keycode, t_data *data);
 int		close_program(t_data *data, char *msg);
 
-void	free_data(t_data *data);
+void	free_img_win_mlx(t_data *data);
 
 // draw image
 void	put_pixel(t_data *data, int x, int y, int color);
@@ -194,6 +194,7 @@ int		check_command_line_arguments(int argc, char **argv);
 /*  PARSER  */
 void	parser(t_data *data, const char *filename);
 int		get_max_line_len(char **map, int n);
+int		check_map_last(t_data *data, int n);
 
 /* LOAD CUB FILE */
 void	load_cub_file(t_data *data, const char *filename);

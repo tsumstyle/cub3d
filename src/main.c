@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/21 17:10:16 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/24 10:22:53 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	key_press(int keycode, t_data *data)
 {
 	if (keycode == ESC)
 	{
-		free_data(data);
+		free_img_win_mlx(data);
 		exit (0); 
 	}
 	// define other key events

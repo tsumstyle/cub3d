@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:15:30 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/19 15:58:33 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/24 13:53:48 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ int	check_each_line(t_data *data, int n)
 {
 	int	i;
 	int	type;
+	int	flag;
 
 	i = 0;
+	flag = 0;
 	while (i < n)
 	{
 		if (!data->map.file[i])
@@ -29,9 +31,14 @@ int	check_each_line(t_data *data, int n)
 		type = get_line_type(data->map.file[i]);
 		if (check_line_is_valid(data->map.file[i], type) != 0)
 			return (1);
+		if (type == L_FLOOR || type == L_CEILING || type == L_TEXT_NO || \
+		type == L_TEXT_SO || type == L_TEXT_EA || type == L_TEXT_WE)
+			flag++;
 		parse_line(data, data->map.file[i], type);
 		i++;
 	}
+	if (flag != 6)
+		return (2);
 	return (0);
 }
 
