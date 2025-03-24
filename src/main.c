@@ -6,29 +6,17 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/24 10:22:53 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:39:31 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/* The beginning of Cub3D is a mix of concepts from Fract-ol and So Long:
-
-    From Fract-ol:
-    ✅ Using MiniLibX to create a window and draw pixels
-    ✅ Modifying an image buffer before displaying it
-
-    From So Long:
-    ✅ Handling player movement with keyboard inputs
-    ✅ Parsing a map file and rendering a grid-based world
-
-Once these basics are done, Cub3D goes further with:
-✅ Ray-casting to create a 3D perspective
-✅ Textures & shading for walls
-✅ Advanced movement (rotation, strafing, collisions, etc.) 
-
-UPDATE 2103 B:
-	- Map: good/works.cub is not passing the parser; this is also really special;
+/* UPDATE 2403 A:
+	- checked all maps: good ones pass, bad ones don't, no leak and no segfault
+	- separated data_init() from lauching the window, mlx, etc (after parsing)
+	so if a map is invalid, it does not open a window just to close it, 
+	it quits before with clean_exit()
 
 NEXT STEPS:
 	- Extract textures, colors, and the map from the dummy map */
@@ -36,11 +24,12 @@ NEXT STEPS:
 int	main(int argc, char **argv)
 {
 	t_data	data;
-	
+
 	if (check_command_line_arguments(argc, argv) != 0)
 		return (1);
 	data_init(&data);
 	parser(&data, argv[1]);
+	launch_window(&data);
 	//hook_events(&data);
 	//mlx_loop_hook(data.mlx, render_image, &data);
 	//mlx_loop(data.mlx);
@@ -57,6 +46,10 @@ void	data_init(t_data *data)
 	data->line_len = WIDTH;
 	data->map.file = NULL;
 	data->map.map = NULL;
+}
+
+void	launch_window(t_data *data)
+{
 	// intializind the connection
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)

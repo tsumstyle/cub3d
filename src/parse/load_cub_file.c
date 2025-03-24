@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:10:05 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/24 13:47:05 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:34:48 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	load_cub_file(t_data *data, const char *filename)
 	fd = 0;
 	lines = count_lines(data, filename);
 	if (lines <= 0)
-		close_program(data, "Error\nInvalid or empty .cub file\n");
+		clean_exit(data, "Error\nInvalid or empty .cub file\n");
 	data->map.file = gc_malloc(data, sizeof(char *) * (lines + 1));
 	if (!data->map.file)
-		close_program(data, "Error\nCan't allocate memory for the .cub file\n");
+		clean_exit(data, "Error\nCan't allocate memory for the .cub file\n");
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		close_program(data, "Error\nFailed to open file\n");
+		clean_exit(data, "Error\nFailed to open file\n");
 	while (i < lines)
 	{
 		data->map.file[i] = gc_gnl(data, fd);
@@ -57,7 +57,7 @@ void	load_map(t_data *data, int n)
 	}
 	data->map.map = gc_malloc(data, sizeof(char *) * (n - i + 1));
 	if (!data->map.map)
-		close_program(data, "Error\nCan't allocate memory for the map\n");
+		clean_exit(data, "Error\nCan't allocate memory for the map\n");
 	j = 0;
 	while (i < n && data->map.file[i] && \
 	get_line_type(data->map.file[i]) == L_MAP)

@@ -6,7 +6,7 @@
 #    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/03/24 14:43:27 by aroux            ###   ########.fr        #
+#    Updated: 2025/03/24 15:36:02 by aroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ fclean: clean
 
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-	./$(NAME) maps/good/library.cub
+	./$(NAME) maps/good/test_map.cub
 
 re: fclean all
 

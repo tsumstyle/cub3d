@@ -6,11 +6,21 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:05:33 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/24 10:20:18 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:32:28 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	clean_exit(t_data *game, char *msg)
+{
+	printf("Exit before lauching game...\n");
+	if (msg)
+		printf("%s\n", msg);
+	gc_free_all(game);
+	exit(0);
+	return (0);
+}
 
 int	close_program(t_data *game, char *msg)
 {
@@ -28,6 +38,8 @@ void	free_img_win_mlx(t_data *data)
 	int	i;
 
 	i = 0;
+	if (!data)
+		return ;
 	if (data->img.ptr)
 	{
 		mlx_destroy_image(data->mlx, data->img.ptr);

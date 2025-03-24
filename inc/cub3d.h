@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/24 14:09:07 by aroux            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:32:56 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,13 @@ typedef struct s_data
 /****************/
 /*  PROTOTYPES  */
 /****************/
+
 void	data_init(t_data *data);
+void	launch_window(t_data *data);
 
 void	hook_events(t_data *data);
 int		key_press(int keycode, t_data *data);
-int		close_program(t_data *data, char *msg);
 
-void	free_img_win_mlx(t_data *data);
 
 // draw image
 void	put_pixel(t_data *data, int x, int y, int color);
@@ -194,7 +194,9 @@ int		check_command_line_arguments(int argc, char **argv);
 /*  PARSER  */
 void	parser(t_data *data, const char *filename);
 int		get_max_line_len(char **map, int n);
-int		check_map_last(t_data *data, int n);
+
+
+
 
 /* LOAD CUB FILE */
 void	load_cub_file(t_data *data, const char *filename);
@@ -224,6 +226,8 @@ void	parse_line_floor(t_data *data, char *line);
 void	parse_line_ceiling(t_data *data, char *line);
 void	parse_line_texture(t_data *data, char *line, int type);
 
+/*  CHECK MAP IS LAST */
+int		check_map_last(char **file, int n);
 
 /*  CHECK MAP  */
 int		check_map(char **map, int n);
@@ -247,6 +251,11 @@ int		render_game(t_data *data);
 /***********/
 /*  UTILS  */
 /***********/
+// cleanup
+int		clean_exit(t_data *game, char *msg);
+void	free_img_win_mlx(t_data *data);
+int		close_program(t_data *data, char *msg);
+
 char	**split_nl(char const *s, char c);
 
 // garbage collector
