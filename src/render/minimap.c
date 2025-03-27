@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:36:24 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/21 15:17:33 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:03:16 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	draw_square(t_data *game, int x, int y, int color)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
 	while (i < MINI_TILE_SIZE)
 	{

@@ -6,7 +6,7 @@
 #    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/03/24 15:36:02 by aroux            ###   ########.fr        #
+#    Updated: 2025/03/27 15:06:14 by aroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,6 @@ all: $(NAME)
 $(NAME): $(OBJ) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LFLAGS) -o $(NAME)
 
-# Regel zur Erstellung der Objektdateien
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)/parse $(OBJ_DIR)/utils
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
