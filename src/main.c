@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/05 15:49:18 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:54:18 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,8 @@ int	main(int argc, char **argv)
 
 void	data_init(t_data *data)
 {
-	data->gc_list = NULL;
-	data->mlx = NULL;
-	data->win = NULL;
+	ft_bzero(data, sizeof(*data));
 	data->line_len = WIDTH;
-	data->map.file = NULL;
-	data->map.map = NULL;
 }
 
 void	launch_window(t_data *data)

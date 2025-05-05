@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/05 15:40:50 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:59:23 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define HEIGHT 720
 
 # define MINI_TILE_SIZE 16
-# define MINI_PLAYER_SIZE 6
+# define MINI_PLAYER_SIZE 4
 # define MAP_OFFSET_X 10
 # define MAP_OFFSET_Y 10
 # define MINI_FLOOR_COLOR 0x444444

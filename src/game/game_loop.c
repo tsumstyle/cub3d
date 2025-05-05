@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:51:21 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/05 14:44:52 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:55:42 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	ft_open_window(t_data *game)
 
 int	game_loop(t_data *game)
 {
-	//render_game(game);
+	render_game(game);
 	draw_minimap(game);
-	//mlx_put_image_to_window(game->mlx, game->win, game->img.ptr, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->win, game->img.ptr, 0, 0);
 	return (0);
 }

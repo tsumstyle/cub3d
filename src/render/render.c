@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:30:31 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/05 15:49:59 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:42:25 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	put_pixel_to_image(t_data *data, int x, int y, int color)
 {
 	char	*pxl;
 
+	if (!data || !data->img.addr)
+		return ;
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
 		return ;
 	pxl = data->img.addr + (y * data->img.line_len + x * (data->img.bpp / 8));
