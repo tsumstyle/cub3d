@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/24 15:32:56 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/05 11:14:15 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,7 @@ int		render_game(t_data *data);
 // cleanup
 int		clean_exit(t_data *game, char *msg);
 void	free_img_win_mlx(t_data *data);
+int		handle_close(void *param);
 int		close_program(t_data *data, char *msg);
 
 char	**split_nl(char const *s, char c);
