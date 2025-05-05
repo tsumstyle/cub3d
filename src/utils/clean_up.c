@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:05:33 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/24 15:32:28 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/05 11:12:29 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ int	clean_exit(t_data *game, char *msg)
 	gc_free_all(game);
 	exit(0);
 	return (0);
+}
+
+int	handle_close(void *param)
+{
+	t_data	*game;
+
+	game = (t_data *)param;
+	return (close_program(game, "Window closed"));
 }
 
 int	close_program(t_data *game, char *msg)
