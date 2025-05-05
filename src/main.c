@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/24 15:39:31 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/05 15:49:18 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv)
 	parser(&data, argv[1]);
 	launch_window(&data);
 	//hook_events(&data);
-	//mlx_loop_hook(data.mlx, render_image, &data);
+	mlx_loop_hook(data.mlx, game_loop, &data);
 	//mlx_loop(data.mlx);
 	run_game(&data);
 	//close_program(&data, "bye bye");

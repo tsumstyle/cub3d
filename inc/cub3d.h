@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/05 11:14:15 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/05 15:40:50 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@
 # define WIDTH 1280
 # define HEIGHT 720
 
-# define MINI_TILE_SIZE 32
-# define MINI_PLAYER_SIZE 12
+# define MINI_TILE_SIZE 16
+# define MINI_PLAYER_SIZE 6
+# define MAP_OFFSET_X 10
+# define MAP_OFFSET_Y 10
 # define MINI_FLOOR_COLOR 0x444444
 # define MINI_WALL_COLOR 0xAAAAAA
 
@@ -195,9 +197,6 @@ int		check_command_line_arguments(int argc, char **argv);
 void	parser(t_data *data, const char *filename);
 int		get_max_line_len(char **map, int n);
 
-
-
-
 /* LOAD CUB FILE */
 void	load_cub_file(t_data *data, const char *filename);
 void	load_map(t_data *data, int n);
@@ -247,6 +246,7 @@ void	draw_minimap_player_and_pov(t_data *game);
 
 /*  render  */
 int		render_game(t_data *data);
+void	put_pixel_to_image(t_data *data, int x, int y, int color);
 
 /***********/
 /*  UTILS  */

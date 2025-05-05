@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:30:31 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/21 17:09:03 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:49:59 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	render_game(t_data *data)
 		while (x < WIDTH)
 		{
 			if (y < 300)
-				put_pixel(data, x, y, 0x00FF00); // color in green the top half
+				put_pixel_to_image(data, x, y, 0x00FF00); // color in green the top half
 			else
-				put_pixel(data, x, y, 0x0000FF);	// color in blue the bottom half
+				put_pixel_to_image(data, x, y, 0x0000FF);	// color in blue the bottom half
 			x++;
 		}
 		y++;
@@ -42,10 +42,12 @@ int	render_game(t_data *data)
 
 /* As in fractol, we draw and color each pixel of the image buffer individually 
 	before loading the image to the window */
-void	put_pixel(t_data *data, int x, int y, int color)
+void	put_pixel_to_image(t_data *data, int x, int y, int color)
 {
 	char	*pxl;
 
-	pxl = data->addr + (y * data->line_len + x * (data->bpp / 8));
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
+	pxl = data->img.addr + (y * data->img.line_len + x * (data->img.bpp / 8));
 	*(unsigned int *)pxl = color;
 }
