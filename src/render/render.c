@@ -3,41 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:30:31 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/21 17:09:03 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:12:15 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/* We iterate through each line of the image and draw pixel by pixel, then line 
-	by line */
 int	render_game(t_data *data)
 {
-	int	x;
-	int	y;
+	int	slice;
 
-	if (!data->img.ptr || !data->img.addr) // ✅ Ensure image is initialized
+	if (!data->img.ptr || !data->img.addr) //Ensure image is initialized
 		return (1);
-
-	y = 0;
-	while (y < HEIGHT)
+	slice = 0;
+	while (slice < WIDTH)
 	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			if (y < 300)
-				put_pixel(data, x, y, 0x00FF00); // color in green the top half
-			else
-				put_pixel(data, x, y, 0x0000FF);	// color in blue the bottom half
-			x++;
-		}
-		y++;
+		draw_each_slice(data, slice);
+		slice++;
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0); // function of the mlx library
 	return (0);
+}
+
+void	draw_each_slice(t_data *data, int slice)
+{
+	int	y;
+	int	wall_dist;
+	int	start;
+	int	end;
+	int	line_height;
+
+	wall_dist = 1.0 + slice * 0.01; 		// replace it with a calculate_wall_distance() function that uses DDA
+	// wall_dist = calculate_wall_dist();
+	line_height = (int)(HEIGHT / wall_dist);// calculates how tall the wall should appear on screen
+	start = -line_height / 2 + HEIGHT / 2;	// centers wall slice vertically
+	if (start < 0) 							// if the wall is bigger than the height, we clamp it to 0 to stay on screen
+		start = 0;
+	end = line_height / 2 + HEIGHT / 2;
+	if (end >= HEIGHT)
+		end = HEIGHT - 1;
+	y = start;
+	while (y < end)
+	{
+		put_pixel(data, slice, y, 0x00FF00); // placeholder wall color (replace with textures)
+		y++;
+	}
+}
+
+/* Casting a ray from the player's position at a certain angle, determined by
+	how far off-center that slice is */
+int	calculate_wall_dist(t_data *data, int slice, int dist)
+{
+	double	offset;
+	double	ray_x;
+	double	ray_y;
+
+	offset = 2 * slice / (double)WIDTH - 1;  // we calculate an offset (varies between -1 and 1) based on how far away the slice is from the center of the projection plane
+	ray_x = data->player.dir_x + data->player.plane_x * offset;
+	ray_y = data->player.dir_y + data->player.plane_y * offset;
+	// DDA
+	// wall hit side (for shading / texturing)
 }
 
 /* As in fractol, we draw and color each pixel of the image buffer individually 
