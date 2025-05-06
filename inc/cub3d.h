@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/05 11:14:15 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/06 12:53:31 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10000
+# endif
+
+# ifndef PI
+#  define PI 3.14159265358979323846
 # endif
 
 /***************/
@@ -98,6 +102,7 @@ typedef struct s_player
 {
 	double	x;
 	double	y;
+	double	angle; 		// 0605A: added the player's angle (in radians) to facilitate ray casting
 	double	dir_x;
 	double	dir_y;
 	double	plane_x;
@@ -236,10 +241,14 @@ int		check_first_last_col(char **map, int n);
 int		check_player(char **map, int n);
 int		check_holes(char **map, int n);
 
+/*  INIT PLAYER */
+void	init_player(t_data *data, char **map, int n);
+void	init_dir_plane_rot_move(t_data *data);
+void	init_angle(t_data *data, char **map, int i, int j);
+
 /************/
 /*  RENDER  */
 /************/
-
 /*  minimap  */
 void	draw_minimap(t_data *game);
 void	draw_square(t_data *game, int x, int y, int color);

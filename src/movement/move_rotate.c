@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:54:59 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/05 13:54:06 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/06 13:06:00 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void	rotate_left(t_player *player)
 	double	old_dir_x;
 	double	old_plane_x;
 
+	player->angle -= player->rot_speed; // 0605A: update the player angle to reuse in ray casting
+	if (player->angle < 0)
+		player->angle += 2 * PI;
 	old_dir_x = player->dir_x;
 	old_plane_x = player->plane_x;
 	player->dir_x = player->dir_x * cos(-player->rot_speed) - \
@@ -34,6 +37,9 @@ void	rotate_right(t_player *player)
 	double	old_dir_x;
 	double	old_plane_x;
 
+	player->angle += player->rot_speed;
+	if (player->angle >= 2 * PI)
+		player->angle -= 2 * PI;
 	old_dir_x = player->dir_x;
 	old_plane_x = player->plane_x;
 	player->dir_x = player->dir_x * cos(player->rot_speed) - \

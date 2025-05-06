@@ -6,7 +6,7 @@
 #    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/03/27 15:06:14 by aroux            ###   ########.fr        #
+#    Updated: 2025/05/06 12:41:29 by aroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC = src/main.c \
 	src/parse/check_cmdline_args.c	src/parse/load_cub_file.c   src/parse/parser.c \
 	src/parse/print_cub_file.c		src/parse/check_each_line.c src/parse/check_line_is_valid.c \
 	src/parse/check_map_last.c		src/parse/check_map.c       src/parse/parse_line.c      \
+	src/parse/init_player.c \
 	src/render/minimap.c			src/render/render.c \
 	src/utils/clean_up.c			src/utils/split_nl.c 		src/utils/gc_get_next_line.c \
 	src/utils/gc_strtrim.c 			src/utils/gc.c
