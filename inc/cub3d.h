@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/06 12:53:31 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/07 15:55:12 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ typedef struct s_data
 /****************/
 /*  PROTOTYPES  */
 /****************/
-
 void	data_init(t_data *data);
 void	launch_window(t_data *data);
 
@@ -166,16 +165,14 @@ int		render_image(t_data *data);
 /**********/
 /*  GAME  */
 /**********/
-
 /*  game_loop  */
 void	run_game(t_data *game);
 int		game_loop(t_data *game);
-void	ft_open_window(t_data *game);
+void	open_window(t_data *game);
 
 /**************/
 /*  MOVEMENT  */
 /**************/
-
 /*  handle_input  */
 int		handle_input(int keysym, t_data *game);
 
@@ -192,14 +189,13 @@ void	rotate_right(t_player *player);
 /***********/
 /*  PARSE  */
 /***********/
-
 /* CHECK CMDLINE ARGS */
 int		check_command_line_arguments(int argc, char **argv);
 
 /*  PARSER  */
 void	parser(t_data *data, const char *filename);
 int		get_max_line_len(char **map, int n);
-
+void	init_map_width_height(t_data *data, char **map, int n);
 
 
 
@@ -207,7 +203,7 @@ int		get_max_line_len(char **map, int n);
 void	load_cub_file(t_data *data, const char *filename);
 void	load_map(t_data *data, int n);
 int		count_lines(t_data *data, const char *filename);
-void	set_map_width(t_data *game);
+// void	set_map_width(t_data *game);   // 0605A: now done in init_map_width_height()
 
 /*  PRINT  */
 void	print_cub_file(char **arr);
@@ -256,13 +252,20 @@ void	draw_minimap_player_and_pov(t_data *game);
 
 /*  render  */
 int		render_game(t_data *data);
+void	cast_ray(t_data *data, int slice);
+void	draw_slice(t_data *data, int slice, double wall_dist, char side_hir);
+double	calculate_wall_distance(t_data *data, double ray_angle, char *side_hit);
+
+/*  draw walls ceiling  */
+void	draw_floor_ceiling(t_data *data, int slice, int start, int end);
+
 
 /***********/
 /*  UTILS  */
 /***********/
 // cleanup
 int		clean_exit(t_data *game, char *msg);
-void	free_img_win_mlx(t_data *data);
+void	free_img_win_mlx(t_data *data, char *err_msg);
 int		handle_close(void *param);
 int		close_program(t_data *data, char *msg);
 

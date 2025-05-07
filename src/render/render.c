@@ -6,12 +6,14 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:30:31 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/06 15:01:12 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/07 15:46:26 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+/* We cast rays from the player to the wall and each ray is gonna be a vertical
+ slice on the field of view (what we see in the window), We loop over each slice */
 int	render_game(t_data *data)
 {
 	int	slice;
@@ -21,53 +23,39 @@ int	render_game(t_data *data)
 	slice = 0;
 	while (slice < WIDTH)
 	{
-		draw_each_slice(data, slice);
+		cast_ray(data, slice);
 		slice++;
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0); // function of the mlx library
 	return (0);
 }
 
-/* Trig approach: easier to understand */
-void	draw_each_slice(t_data *data, int slice)
+/* Trig approach, with values in radians
+	for each slice, we calculate where the slice is regarding the center of
+	the field of view (window) and calculate the angle of the ray, 
+	then the distance to the wall,
+	then we draw the wall
+*/
+void	cast_ray(t_data *data, int slice)
 {
-	double	fov; //field of view
-	double	offset;
+	double	fov;	//field of view
+	double	offset;  //relative position in the view plane (left = -1, center = 0, right = 1).
 	double	ray_angle;
 	double	wall_dist;
+	char	side_hit;
 
-	fov = PI / 3.0; // 60degree angle
+	fov = PI / 3.0; // 60 degree angle (or PI/3 in radians): standard convention
 	offset = (2.0 * slice / (double)WIDTH) - 1.0; //range [-1, 1] : gives us a relative position in the view plane (left = -1, center = 0, right = 1).
 	ray_angle = data->player.angle + (offset * (fov / 2.0));
-	wall_dist = calculate_wall_distance(data, ray_angle);
-	draw_wall(data, slice, wall_dist);
-
+//	side_hit = 'N';  // initialize side_hit to be north, then modify if not
+	wall_dist = calculate_wall_distance(data, ray_angle, &side_hit);
+	draw_slice(data, slice, wall_dist, side_hit);
 }
 
-void	draw_wall(t_data *data, int slice, int wall_dist)
-{
-	int	line_height;
-	int	start;
-	int	end;
-	int	y;
-
-	line_height = (int)(HEIGHT / wall_dist);
-	start = -line_height / 2 + HEIGHT / 2; // where to start drawing the wall
-	end = line_height / 2 + HEIGHT / 2;
-	// clamp the drawing to fit the screen dimensions
-	if (start < 0)
-		start = 0;
-	if (end >= HEIGHT)
-		end = HEIGHT - 1;
-	y = start;
-	while (y < end)
-	{
-		put_pixel(data, slice, y, 0x00FF00); // placeholder wall color (replace with textures)
-		y++;
-	}
-}
-
-double	calculate_wall_distance(t_data *data, double ray_angle)
+/* To calculate the distance to the wall, we progress step by step
+	at each step, we check if we hit a wall; if so, we break the process
+	we then apply a fish-eye correction because otherwise it looks weird */
+double	calculate_wall_distance(t_data *data, double ray_angle, char *side_hit)
 {
 	double	wall_dist;
 	double	ray_x;
@@ -76,6 +64,8 @@ double	calculate_wall_distance(t_data *data, double ray_angle)
 	int		grid_y;
 
 	wall_dist = 0.0;
+	ray_x = data->player.x;
+	ray_y = data->player.y;
 	while (1)
 	{
 		ray_x += cos(ray_angle) * 0.01;  // we arbitrary define a "step" size of 0.01 for walk down the ray
@@ -84,17 +74,70 @@ double	calculate_wall_distance(t_data *data, double ray_angle)
 		grid_x = (int)ray_x;
 		grid_y = (int)ray_y;
 		if (grid_x < 0 || grid_x >= data->map.width \
-		|| grid_y < 0 || grid_y >= data->map.height)	// TODO: define MAP_WID and MAP_HEI at parsing stage
+		|| grid_y < 0 || grid_y >= data->map.height)
 			return (1000000.0); // big distance, treats as very far away
 		if (data->map.map[grid_y][grid_x] == '1')
 			break;
+	}
+	if (fabs(cos(ray_angle)) > fabs(sin(ray_angle))) // this is to try to determine the orientation of the walls (to color them accordingly), but it's not fully working
+	{
+		if (cos(ray_angle) > 0)
+			*side_hit = 'E';
+		else
+			*side_hit = 'W';
+	}
+	else
+	{
+		if (sin(ray_angle) > 0)
+			*side_hit = 'S';
+		else
+			*side_hit = 'N';
 	}
 	wall_dist *= cos(ray_angle - data->player.angle); //fisheye correction
 	return (wall_dist);
 }
 
+/* We have to calculate where the wall starts and  where it ends
+	then draw it 
+	then we draw the floor and ceiling */
+void	draw_slice(t_data *data, int slice, double wall_dist, char side_hit)
+{
+	int	line_height;
+	int	start;
+	int	end;
+	int	color;
+	int	i;
 
-/* DDA approach: less easy to understand */
+	if (wall_dist < 0.0001)
+		wall_dist = 0.0001; // avoid dividing by zero when wall distance is zero
+	line_height = (int)(HEIGHT / wall_dist);
+	start = -line_height / 2 + HEIGHT / 2; // where to start drawing the wall
+	end = line_height / 2 + HEIGHT / 2;
+	// clamp the drawing to fit the screen dimensions
+	if (start < 0)
+		start = 0;
+	if (end >= HEIGHT)
+		end = HEIGHT - 1;
+	if (side_hit == 'N')
+		color = 0x404040; // placeholder wall color (replace with textures)
+	else if (side_hit == 'S')
+		color = 0xA0A0A0;
+	else if (side_hit == 'E')
+		color = 0x808080;
+	else
+		color = 0x606060;
+	i = start;
+	while (i < end)
+	{
+		put_pixel(data, slice, i, color);
+		i++;
+	}
+	draw_floor_ceiling(data, slice, start, end);
+}
+
+
+/* DDA approach: less easy to understand but Toby said it might be more efficient
+also makes the determination of wall orientation easier */
 /* void	draw_each_slice(t_data *data, int slice)
 {
 	int	y;
@@ -214,6 +257,6 @@ void	put_pixel(t_data *data, int x, int y, int color)
 {
 	char	*pxl;
 
-	pxl = data->addr + (y * data->line_len + x * (data->bpp / 8));
+	pxl = data->img.addr + (y * data->img.line_len + x * (data->img.bpp / 8));
 	*(unsigned int *)pxl = color;
 }

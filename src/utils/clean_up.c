@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:05:33 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/05 11:12:29 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/07 15:37:54 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,13 @@ int	handle_close(void *param)
 int	close_program(t_data *game, char *msg)
 {
 	printf("Closing program...\n");
-	if (msg)
-		printf("%s\n", msg);
-	free_img_win_mlx(game);
+	free_img_win_mlx(game, msg);
 	gc_free_all(game);
 	exit(0);
 	return (0);
 }
 
-void	free_img_win_mlx(t_data *data)
+void	free_img_win_mlx(t_data *data, char *err_msg)
 {
 	int	i;
 
@@ -64,4 +62,6 @@ void	free_img_win_mlx(t_data *data)
 		free(data->mlx);
 		data->mlx = NULL;
 	}
+	if (err_msg)
+		perror(err_msg);
 }

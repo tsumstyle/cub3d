@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/24 15:39:31 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/07 15:39:45 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ int	main(int argc, char **argv)
 		return (1);
 	data_init(&data);
 	parser(&data, argv[1]);
-	launch_window(&data);
+	//open_window(&data);
+	launch_window(&data);   // 0705A: we have two functions that achieve the same thing and I'm not sure why: launch_window and open_window; I changed launch_window so it's cleaner and only 25 lines
+	mlx_loop_hook(data.mlx, game_loop, &data);
 	//hook_events(&data);
-	//mlx_loop_hook(data.mlx, render_image, &data);
 	//mlx_loop(data.mlx);
 	run_game(&data);
 	//close_program(&data, "bye bye");
@@ -50,34 +51,33 @@ void	data_init(t_data *data)
 
 void	launch_window(t_data *data)
 {
-	// intializind the connection
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
 	{
 		perror("Malloc failed");
 		exit (1);
 	}
-	// opening new window:
 	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Cub3D");
 	if (data->win == NULL)
 	{
-		mlx_destroy_display(data->mlx);
-		free(data->mlx);
-		perror("Malloc failed");
+		free_img_win_mlx(data, "New window creation failed");
 		exit (1);
 	}
-	// initialize image buffer: creating image buffer (init data->img) and getting its memory address (data->addr)
 	data->img.ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img.ptr)
 	{
-		mlx_destroy_window(data->mlx, data->win);
-		mlx_destroy_display(data->mlx);
-		free(data->mlx);
-		perror("Image creation failed");
+		free_img_win_mlx(data, "Image creation failed");
 		exit(1);
 	}
-	data->img.addr = mlx_get_data_addr(data->img.ptr, &data->img.bpp, &data->img.line_len, &data->img.endian);
+	data->img.addr = mlx_get_data_addr(data->img.ptr, \
+		&data->img.bpp, &data->img.line_len, &data->img.endian);
+	if (!data->img.addr)
+	{
+		free_img_win_mlx(data, "Failed to get image address");
+		exit(1);
+	}
 }
+
 
 /* function to define the different hook events: 
 		key press, 
@@ -98,7 +98,7 @@ int	key_press(int keycode, t_data *data)
 {
 	if (keycode == ESC)
 	{
-		free_img_win_mlx(data);
+		free_img_win_mlx(data, NULL);
 		exit (0); 
 	}
 	// define other key events
