@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
+#    By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/03/27 15:06:14 by aroux            ###   ########.fr        #
+#    Updated: 2025/05/09 11:01:55 by bbierman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC = src/main.c \
 	src/parse/check_cmdline_args.c	src/parse/load_cub_file.c   src/parse/parser.c \
 	src/parse/print_cub_file.c		src/parse/check_each_line.c src/parse/check_line_is_valid.c \
 	src/parse/check_map_last.c		src/parse/check_map.c       src/parse/parse_line.c      \
-	src/render/minimap.c			src/render/render.c \
+	src/parse/init_player.c \
+	src/render/minimap.c			src/render/minimap_fov.c	src/render/render.c			src/render/draw_floor_ceiling.c \
 	src/utils/clean_up.c			src/utils/split_nl.c 		src/utils/gc_get_next_line.c \
 	src/utils/gc_strtrim.c 			src/utils/gc.c
 
@@ -66,8 +67,12 @@ fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 valgrind:
+	valgrind --leak-check=full \
+	./$(NAME) maps/good/subject_map.cub
+
+valfull:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-	./$(NAME) maps/good/test_map.cub
+	./$(NAME) maps/good/subject_map.cub
 
 re: fclean all
 

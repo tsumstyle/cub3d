@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:36:24 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/05 17:03:47 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:35:29 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,17 @@ void	draw_minimap(t_data *game)
 	int	y;
 
 	y = 0;
-	while (game->map.map[y]) //Dont know if this is going to work 
+	while (game->map.map[y])
 	{
 		x = 0;
 		while (game->map.map[y][x])
 		{
-			if (game->map.map[y][x] != '1')
+			if (game->map.map[y][x] == '\n')
+			{
+				x++;
+				continue ;
+			}
+			else if (game->map.map[y][x] != '1')
 				draw_square(game, x, y, MINI_FLOOR_COLOR);
 			else
 				draw_square(game, x, y, MINI_WALL_COLOR);
@@ -31,6 +36,7 @@ void	draw_minimap(t_data *game)
 		}
 		y++;
 	}
+	draw_minimap_fov(game);
 	draw_minimap_player_and_pov(game);
 }
 
@@ -56,18 +62,27 @@ void	draw_square(t_data *game, int x, int y, int color)
 	}
 }
 
+void	draw_square_pixel(t_data *game, int x, int y, int color)
+{
+	for (int i = 0; i < MINI_PLAYER_SIZE; i++)
+	{
+		for (int j = 0; j < MINI_PLAYER_SIZE; j++)
+		{
+			put_pixel_to_image(game, x + j, y + i, color);
+		}
+	}
+}
+
 void	draw_minimap_player_and_pov(t_data *game)
 {
 	int	p_x;
 	int	p_y;
 	int	pov_x;
 	int	pov_y;
-
+	
 	p_x = MAP_OFFSET_X + game->player.x * MINI_TILE_SIZE;
 	p_y = MAP_OFFSET_Y + game->player.y * MINI_TILE_SIZE;
 	pov_x = p_x + game->player.dir_x * MINI_TILE_SIZE * 2;
 	pov_y = p_y + game->player.dir_y * MINI_TILE_SIZE * 2;
-	draw_square(game, p_x - MINI_PLAYER_SIZE / 2, \
-		p_y - MINI_PLAYER_SIZE / 2, 0xFF0000);
-	put_pixel_to_image(game, pov_x, pov_y, 0x00FF00);
+	draw_square_pixel(game, p_x - MINI_PLAYER_SIZE / 2, p_y - MINI_PLAYER_SIZE / 2, 0xFF0000);
 }

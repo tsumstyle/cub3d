@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/05 16:59:23 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:27:29 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10000
+# endif
+
+# ifndef PI
+#  define PI 3.14159265358979323846
 # endif
 
 /***************/
@@ -41,12 +45,16 @@
 # define WIDTH 1280
 # define HEIGHT 720
 
-# define MINI_TILE_SIZE 16
-# define MINI_PLAYER_SIZE 4
 # define MAP_OFFSET_X 10
 # define MAP_OFFSET_Y 10
+# define MINI_TILE_SIZE 16
+# define MINI_PLAYER_SIZE 8
 # define MINI_FLOOR_COLOR 0x444444
 # define MINI_WALL_COLOR 0xAAAAAA
+# define MINI_FOV 60 // Grad
+# define MINI_RAY_STEP 2 // Abstand zwischen den Linien
+# define MINI_RAY_LENGTH 8 // in Mapfeldern
+
 
 /* MACROS: linux keys */
 # define ESC XK_Escape
@@ -100,12 +108,14 @@ typedef struct s_player
 {
 	double	x;
 	double	y;
+	double	angle; 		// 0605A: added the player's angle (in radians) to facilitate ray casting
 	double	dir_x;
 	double	dir_y;
 	double	plane_x;
 	double	plane_y;
 	double	move_speed;
 	double	rot_speed;
+	char	orientation;
 }		t_player;
 
 /* parsing: type of line in the .cub file */
@@ -147,7 +157,6 @@ typedef struct s_data
 /****************/
 /*  PROTOTYPES  */
 /****************/
-
 void	data_init(t_data *data);
 void	launch_window(t_data *data);
 
@@ -158,21 +167,20 @@ int		key_press(int keycode, t_data *data);
 // draw image
 void	put_pixel(t_data *data, int x, int y, int color);
 int		render_image(t_data *data);
+void	put_pixel_to_image(t_data *data, int x, int y, int color);
 
 
 /**********/
 /*  GAME  */
 /**********/
-
 /*  game_loop  */
 void	run_game(t_data *game);
 int		game_loop(t_data *game);
-void	ft_open_window(t_data *game);
+void	open_window(t_data *game);
 
 /**************/
 /*  MOVEMENT  */
 /**************/
-
 /*  handle_input  */
 int		handle_input(int keysym, t_data *game);
 
@@ -189,19 +197,21 @@ void	rotate_right(t_player *player);
 /***********/
 /*  PARSE  */
 /***********/
-
 /* CHECK CMDLINE ARGS */
 int		check_command_line_arguments(int argc, char **argv);
 
 /*  PARSER  */
 void	parser(t_data *data, const char *filename);
 int		get_max_line_len(char **map, int n);
+void	init_map_width_height(t_data *data, char **map, int n);
+
+
 
 /* LOAD CUB FILE */
 void	load_cub_file(t_data *data, const char *filename);
 void	load_map(t_data *data, int n);
 int		count_lines(t_data *data, const char *filename);
-void	set_map_width(t_data *game);
+// void	set_map_width(t_data *game);   // 0605A: now done in init_map_width_height()
 
 /*  PRINT  */
 void	print_cub_file(char **arr);
@@ -235,25 +245,40 @@ int		check_first_last_col(char **map, int n);
 int		check_player(char **map, int n);
 int		check_holes(char **map, int n);
 
+/*  INIT PLAYER */
+void	init_player(t_data *data, char **map, int n);
+void	init_dir_plane_rot_move(t_data *data);
+void	init_angle(t_data *data, char **map, int i, int j);
+
 /************/
 /*  RENDER  */
 /************/
-
 /*  minimap  */
 void	draw_minimap(t_data *game);
 void	draw_square(t_data *game, int x, int y, int color);
 void	draw_minimap_player_and_pov(t_data *game);
 
+/*  minimap FOV */
+
+void	draw_minimap_fov(t_data *game);
+void	draw_minimap_ray(t_data *game, double rel_angle);
+
 /*  render  */
 int		render_game(t_data *data);
-void	put_pixel_to_image(t_data *data, int x, int y, int color);
+void	cast_ray(t_data *data, int slice);
+void	draw_slice(t_data *data, int slice, double wall_dist, char side_hir);
+double	calculate_wall_distance(t_data *data, double ray_angle, char *side_hit, bool minimap);
+
+/*  draw walls ceiling  */
+void	draw_floor_ceiling(t_data *data, int slice, int start, int end);
+
 
 /***********/
 /*  UTILS  */
 /***********/
 // cleanup
 int		clean_exit(t_data *game, char *msg);
-void	free_img_win_mlx(t_data *data);
+void	free_img_win_mlx(t_data *data, char *err_msg);
 int		handle_close(void *param);
 int		close_program(t_data *data, char *msg);
 
