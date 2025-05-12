@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_fov.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:55:13 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/09 13:54:22 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:09:19 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	draw_minimap_ray(t_data *game, double rel_angle)
 
 	i = 0;
 	dir_angle = atan2(game->player.dir_y, game->player.dir_x) + rel_angle * (PI / 180.0);
-	len = calculate_wall_distance(game, dir_angle, &game->player.orientation, true);
+	len = calculate_wall_distance(game, dir_angle, true);
 	if (len > MINI_RAY_LENGTH)
 		len = MINI_RAY_LENGTH;
 	start_x = MAP_OFFSET_X + game->player.x * MINI_TILE_SIZE;

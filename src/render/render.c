@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:30:31 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/09 14:22:18 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:07:37 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,18 @@ void	cast_ray(t_data *data, int slice)
 	double	offset;  //relative position in the view plane (left = -1, center = 0, right = 1).
 	double	ray_angle;
 	double	wall_dist;
-	char	side_hit;
 
 	fov = PI / 3.0; // 60 degree angle (or PI/3 in radians): standard convention
 	offset = (2.0 * slice / (double)WIDTH) - 1.0; //range [-1, 1] : gives us a relative position in the view plane (left = -1, center = 0, right = 1).
 	ray_angle = data->player.angle + (offset * (fov / 2.0));
-//	side_hit = 'N';  // initialize side_hit to be north, then modify if not
-	wall_dist = calculate_wall_distance(data, ray_angle, &side_hit, false);
-	draw_slice(data, slice, wall_dist, side_hit);
+	wall_dist = calculate_wall_distance(data, ray_angle, false);
+	draw_slice(data, slice, wall_dist);
 }
 
 /* To calculate the distance to the wall, we progress step by step
 	at each step, we check if we hit a wall; if so, we break the process
 	we then apply a fish-eye correction because otherwise it looks weird */
-double	calculate_wall_distance(t_data *data, double ray_angle, char *side_hit, bool minimap)
+double	calculate_wall_distance(t_data *data, double ray_angle, bool minimap)
 {
 	double	wall_dist;
 	double	ray_x;
@@ -79,29 +77,65 @@ double	calculate_wall_distance(t_data *data, double ray_angle, char *side_hit, b
 		if (data->map.map[grid_y][grid_x] == '1')
 			break;
 	}
-	if (fabs(cos(ray_angle)) > fabs(sin(ray_angle))) // this is to try to determine the orientation of the walls (to color them accordingly), but it's not fully working
-	{
-		if (cos(ray_angle) > 0)
-			*side_hit = 'E';
-		else
-			*side_hit = 'W';
-	}
-	else
-	{
-		if (sin(ray_angle) > 0)
-			*side_hit = 'S';
-		else
-			*side_hit = 'N';
-	}
+	
+	find_wall_orient(data, ray_x, ray_y, ray_angle);
 	if (minimap == false)
 		wall_dist *= cos(ray_angle - data->player.angle); //fisheye correction
 	return (wall_dist);
 }
 
+void	find_wall_orient(t_data *data, double ray_x, double ray_y, double ray_angle)
+{
+	int		stepback_x;
+	int		stepback_y;
+	int		grid_x;
+	int		grid_y;
+
+	grid_x = (int)ray_x;
+	grid_y = (int)ray_y;
+	stepback_x = (int)(ray_x - cos(ray_angle) * 0.01);
+	stepback_y = (int)(ray_y - sin(ray_angle) * 0.01);
+	if (stepback_x <= grid_x && stepback_y == grid_y)
+		data->wall_orient = 'E';
+	else if (stepback_x >= grid_x && stepback_y == grid_y)
+		data->wall_orient = 'W';
+	else if (stepback_x == grid_x && stepback_y <= grid_y)
+		data->wall_orient = 'N';
+	else if (stepback_x == grid_x && stepback_y >= grid_y)
+		data->wall_orient = 'S';
+}
+/* char	*find_wall_orient(double ray_x, double ray_y, double ray_angle, char *wall_orient)
+{
+	int		stepback_x;
+	int		stepback_y;
+	int		grid_x;
+	int		grid_y;
+
+	grid_x = (int)ray_x;
+	grid_y = (int)ray_y;
+	stepback_x = (int)(ray_x - cos(ray_angle) * 0.01);
+	stepback_y = (int)(ray_y - sin(ray_angle) * 0.01);
+	if (stepback_x <= grid_x && stepback_y == grid_y)
+		*wall_orient = 'E';
+	else if (stepback_x >= grid_x && stepback_y == grid_y)
+		*wall_orient = 'W';
+	else if (stepback_x == grid_x && stepback_y <= grid_y)
+		*wall_orient = 'N';
+	else if (stepback_x == grid_x && stepback_y >= grid_y)
+		*wall_orient = 'S';
+	else if ((stepback_x <= grid_x && stepback_y <= grid_y) 
+	|| (stepback_x >= grid_x && stepback_y <= grid_y))
+		*wall_orient = 'N';
+	else if (((stepback_x >= grid_x && stepback_y <= grid_y) 
+	|| (stepback_x >= grid_x && stepback_y >= grid_y)))
+		*wall_orient = 'S';
+	return (wall_orient);
+} */
+
 /* We have to calculate where the wall starts and  where it ends
 	then draw it 
 	then we draw the floor and ceiling */
-void	draw_slice(t_data *data, int slice, double wall_dist, char side_hit)
+void	draw_slice(t_data *data, int slice, double wall_dist)
 {
 	int	line_height;
 	int	start;
@@ -119,11 +153,11 @@ void	draw_slice(t_data *data, int slice, double wall_dist, char side_hit)
 		start = 0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
-	if (side_hit == 'N')
+	if (data->wall_orient == 'N')
 		color = 0x404040; // placeholder wall color (replace with textures)
-	else if (side_hit == 'S')
+	else if (data->wall_orient == 'S')
 		color = 0xA0A0A0;
-	else if (side_hit == 'E')
+	else if (data->wall_orient == 'E')
 		color = 0x808080;
 	else
 		color = 0x606060;

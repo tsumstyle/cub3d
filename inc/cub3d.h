@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/09 12:27:29 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:08:02 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ typedef struct s_data
 	char	*so_text_path;
 	char	*ea_text_path;
 	char	*we_text_path;
+	char	wall_orient;
 	t_map	map;
 	t_player	player;
 }		t_data;
@@ -266,8 +267,9 @@ void	draw_minimap_ray(t_data *game, double rel_angle);
 /*  render  */
 int		render_game(t_data *data);
 void	cast_ray(t_data *data, int slice);
-void	draw_slice(t_data *data, int slice, double wall_dist, char side_hir);
-double	calculate_wall_distance(t_data *data, double ray_angle, char *side_hit, bool minimap);
+void	draw_slice(t_data *data, int slice, double wall_dist);
+double	calculate_wall_distance(t_data *data, double ray_angle, bool minimap);
+void	find_wall_orient(t_data *data, double ray_x, double ray_y, double ray_angle);
 
 /*  draw walls ceiling  */
 void	draw_floor_ceiling(t_data *data, int slice, int start, int end);
