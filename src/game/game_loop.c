@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:51:21 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/09 09:42:06 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:27:03 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,51 +18,26 @@ void	run_game(t_data *game)
 	mlx_hook(game->win, DestroyNotify, StructureNotifyMask, handle_close, game);
 	mlx_loop(game->mlx);
 }
-/*
-void	open_window(t_data *game)
-{
-	int	win_x;
-	int	win_y;
 
-	win_x = game->map.width * MINI_TILE_SIZE;
-	win_y = game->map.height * MINI_TILE_SIZE;
-	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cub3d");
-	game_loop(game);
-}*/
-
-void	open_window(t_data *game)
+void	launch_window(t_data *data)
 {
-//	data->mlx = mlx_init();
-//	if (data->mlx == NULL)
-//	{
-//		perror("Malloc failed");
-//		exit (1);
-//	}	
-	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cub3d");
-	if (!game->win)
+	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Cub3D");
+	if (data->win == NULL)
 	{
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-		perror("Window creation failed");
+		free_img_win_mlx(data, "New window creation failed");
+		exit (1);
+	}
+	data->img.ptr = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	if (!data->img.ptr)
+	{
+		free_img_win_mlx(data, "Image creation failed");
 		exit(1);
 	}
-	game->img.ptr = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	if (!game->img.ptr)
+	data->img.addr = mlx_get_data_addr(data->img.ptr, \
+		&data->img.bpp, &data->img.line_len, &data->img.endian);
+	if (!data->img.addr)
 	{
-		mlx_destroy_window(game->mlx, game->win);
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-		perror("Image creation failed");
-		exit(1);
-	}
-	game->img.addr = mlx_get_data_addr(game->img.ptr, &game->img.bpp, &game->img.line_len, &game->img.endian);
-	if (!game->img.addr)
-	{
-		mlx_destroy_image(game->mlx, game->img.ptr);
-		mlx_destroy_window(game->mlx, game->win);
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-		perror("Failed to get image address");
+		free_img_win_mlx(data, "Failed to get image address");
 		exit(1);
 	}
 }
@@ -71,6 +46,5 @@ int	game_loop(t_data *game)
 {
 	render_game(game);
 	draw_minimap(game);
-	//mlx_put_image_to_window(game->mlx, game->win, game->img.ptr, 0, 0);
 	return (0);
 }

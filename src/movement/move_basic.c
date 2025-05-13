@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_basic.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:54:41 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/21 11:56:17 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:28:35 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	move_forward(t_player *player, char **map)
 
 	new_x = player->x + player->dir_x * player->move_speed;
 	new_y = player->y + player->dir_y * player->move_speed;
-	
 	if (map[(int)(player->y)][(int)(new_x)] != '1')
 		player->x = new_x;
 	if (map[(int)(new_y)][(int)(player->x)] != '1')
@@ -33,7 +32,6 @@ void	move_backward(t_player *player, char **map)
 
 	new_x = player->x - player->dir_x * player->move_speed;
 	new_y = player->y - player->dir_y * player->move_speed;
-	
 	if (map[(int)(player->y)][(int)(new_x)] != '1')
 		player->x = new_x;
 	if (map[(int)(new_y)][(int)(player->x)] != '1')
@@ -47,7 +45,6 @@ void	strafe_left(t_player *player, char **map)
 
 	new_x = player->x - player->plane_x * player->move_speed;
 	new_y = player->y - player->plane_y * player->move_speed;
-	
 	if (map[(int)(player->y)][(int)(new_x)] != '1')
 		player->x = new_x;
 	if (map[(int)(new_y)][(int)(player->x)] != '1')
@@ -61,7 +58,6 @@ void	strafe_right(t_player *player, char **map)
 
 	new_x = player->x + player->plane_x * player->move_speed;
 	new_y = player->y + player->plane_y * player->move_speed;
-	
 	if (map[(int)(player->y)][(int)(new_x)] != '1')
 		player->x = new_x;
 	if (map[(int)(new_y)][(int)(player->x)] != '1')

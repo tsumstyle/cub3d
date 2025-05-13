@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:36:24 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/09 12:35:29 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:40:14 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,19 @@ void	draw_square(t_data *game, int x, int y, int color)
 
 void	draw_square_pixel(t_data *game, int x, int y, int color)
 {
-	for (int i = 0; i < MINI_PLAYER_SIZE; i++)
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < MINI_PLAYER_SIZE)
 	{
-		for (int j = 0; j < MINI_PLAYER_SIZE; j++)
+		j = 0;
+		while (j < MINI_PLAYER_SIZE)
 		{
 			put_pixel_to_image(game, x + j, y + i, color);
+			j++;
 		}
+		i++;
 	}
 }
 
@@ -79,10 +86,11 @@ void	draw_minimap_player_and_pov(t_data *game)
 	int	p_y;
 	int	pov_x;
 	int	pov_y;
-	
+
 	p_x = MAP_OFFSET_X + game->player.x * MINI_TILE_SIZE;
 	p_y = MAP_OFFSET_Y + game->player.y * MINI_TILE_SIZE;
 	pov_x = p_x + game->player.dir_x * MINI_TILE_SIZE * 2;
 	pov_y = p_y + game->player.dir_y * MINI_TILE_SIZE * 2;
-	draw_square_pixel(game, p_x - MINI_PLAYER_SIZE / 2, p_y - MINI_PLAYER_SIZE / 2, 0xFF0000);
+	draw_square_pixel(game, p_x - MINI_PLAYER_SIZE / 2, \
+	p_y - MINI_PLAYER_SIZE / 2, 0xFF0000);
 }

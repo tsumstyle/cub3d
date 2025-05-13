@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 10:57:20 by bbierman          #+#    #+#             */
-/*   Updated: 2025/03/24 10:21:55 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/13 14:28:05 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,3 @@ int	handle_input(int keysym, t_data *game)
 		close_program(game, "bye bye\n");
 	return (0);
 }
-

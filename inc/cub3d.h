@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/12 11:08:02 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/13 14:26:44 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@
 /* MACROS: general */
 # define WIDTH 1280
 # define HEIGHT 720
+# define TEXT_WIDTH	64
+# define TEXT_HEIGHT 64
 
 # define MAP_OFFSET_X 10
 # define MAP_OFFSET_Y 10
@@ -135,23 +137,29 @@ typedef enum t_line
 /* data */
 typedef struct s_data
 {
-	t_gc		*gc_list;	// garbage collector
-	/* window and mlx vars */
+	t_gc		*gc_list;
 	void		*mlx;
 	void		*win;
-	t_img		img;	// image buffer
-	char		*addr; 	// image data address
-	int		bpp;	// bits per pixel
+	t_img		img;
+	char		*addr;
+	int			bpp;
 	int			line_len;
-	int		endian;
-	int		floor_color;
-	int		ceiling_color;
-	char	*no_text_path;
-	char	*so_text_path;
-	char	*ea_text_path;
-	char	*we_text_path;
-	char	wall_orient;
-	t_map	map;
+	int			endian;
+	int			floor_color;
+	int			ceiling_color;
+	char		*path_wall_n;
+	char		*path_wall_s;
+	char		*path_wall_w;
+	char		*path_wall_e;
+	t_img		text_n;
+	t_img		text_s;
+	t_img		text_w;
+	t_img		text_e;
+	double		wall_hit_x;
+	double		wall_hit_y;
+	char		wall_orient;
+	int			wall_height;
+	t_map		map;
 	t_player	player;
 }		t_data;
 
@@ -159,16 +167,6 @@ typedef struct s_data
 /*  PROTOTYPES  */
 /****************/
 void	data_init(t_data *data);
-void	launch_window(t_data *data);
-
-void	hook_events(t_data *data);
-int		key_press(int keycode, t_data *data);
-
-
-// draw image
-void	put_pixel(t_data *data, int x, int y, int color);
-int		render_image(t_data *data);
-void	put_pixel_to_image(t_data *data, int x, int y, int color);
 
 
 /**********/
@@ -177,7 +175,7 @@ void	put_pixel_to_image(t_data *data, int x, int y, int color);
 /*  game_loop  */
 void	run_game(t_data *game);
 int		game_loop(t_data *game);
-void	open_window(t_data *game);
+void	launch_window(t_data *data);
 
 /**************/
 /*  MOVEMENT  */
@@ -198,58 +196,59 @@ void	rotate_right(t_player *player);
 /***********/
 /*  PARSE  */
 /***********/
-/* CHECK CMDLINE ARGS */
+/* check cmdline args */
 int		check_command_line_arguments(int argc, char **argv);
 
-/*  PARSER  */
+/*  parser  */
 void	parser(t_data *data, const char *filename);
 int		get_max_line_len(char **map, int n);
-void	init_map_width_height(t_data *data, char **map, int n);
 
-
-
-/* LOAD CUB FILE */
+/* load cub file */
 void	load_cub_file(t_data *data, const char *filename);
 void	load_map(t_data *data, int n);
 int		count_lines(t_data *data, const char *filename);
-// void	set_map_width(t_data *game);   // 0605A: now done in init_map_width_height()
 
-/*  PRINT  */
-void	print_cub_file(char **arr);
-void	print_parsing_result(t_data *data);
-
-/*  CHECK EACH LINE  */
+/*  check each line  */
 int		check_each_line(t_data *data, int n);
 int		get_line_type(char *line);
 int		is_rgb_number(char **line);
 char	*trim_spaces(char *str);
 
-/*  CHECK LINE IS VALID  */
+/*  check line is valid  */
 int		check_line_is_valid(char *line, int type);
 int		check_line_texture(char *line);
 int		check_line_floor(char *line);
 int		check_line_ceiling(char *line);
 
-/* PARSE LINE */
+/* parse line */
 void	parse_line(t_data *data, char *line, int type);
 void	parse_line_floor(t_data *data, char *line);
 void	parse_line_ceiling(t_data *data, char *line);
 void	parse_line_texture(t_data *data, char *line, int type);
 
-/*  CHECK MAP IS LAST */
+/* check map is last */
 int		check_map_last(char **file, int n);
 
-/*  CHECK MAP  */
+/*  check map  */
 int		check_map(char **map, int n);
 int		check_first_last_row(char **map, int n);
 int		check_first_last_col(char **map, int n);
 int		check_player(char **map, int n);
 int		check_holes(char **map, int n);
 
-/*  INIT PLAYER */
+/*  init player */
 void	init_player(t_data *data, char **map, int n);
 void	init_dir_plane_rot_move(t_data *data);
 void	init_angle(t_data *data, char **map, int i, int j);
+
+/* init textures and map */
+void	init_map_width_height(t_data *data, char **map, int n);
+void	init_textures(t_data *data);
+void	init_img_struct(t_data *data, t_img *text_img, char *path);
+
+/*  PRINT  */
+void	print_cub_file(char **arr);
+void	print_parsing_result(t_data *data);
 
 /************/
 /*  RENDER  */
@@ -260,41 +259,55 @@ void	draw_square(t_data *game, int x, int y, int color);
 void	draw_minimap_player_and_pov(t_data *game);
 
 /*  minimap FOV */
-
 void	draw_minimap_fov(t_data *game);
 void	draw_minimap_ray(t_data *game, double rel_angle);
 
 /*  render  */
 int		render_game(t_data *data);
 void	cast_ray(t_data *data, int slice);
-void	draw_slice(t_data *data, int slice, double wall_dist);
+
+/* calculate wall distance */
 double	calculate_wall_distance(t_data *data, double ray_angle, bool minimap);
-void	find_wall_orient(t_data *data, double ray_x, double ray_y, double ray_angle);
+void	store_hit_coordinates(t_data *data, double ray_x, double ray_y, \
+								double ray_angle);
+void	find_wall_orient(t_data *data, double ray_x, double ray_y, \
+						double ray_angle);
+void	fisheye_correction(t_data *data, double *wall_dist, double ray_angle, \
+							bool minimap);
+
+/* draw_slice */
+void	draw_slice(t_data *data, int slice, double wall_dist);
+void	draw_wall_pixel(t_data *data, int x, int y, int start);
+t_img	get_texture(t_data *data);
+void	put_pixel_to_image(t_data *data, int x, int y, int color);
 
 /*  draw walls ceiling  */
 void	draw_floor_ceiling(t_data *data, int slice, int start, int end);
 
-
 /***********/
 /*  UTILS  */
 /***********/
-// cleanup
+/* cleanup */
 int		clean_exit(t_data *game, char *msg);
 void	free_img_win_mlx(t_data *data, char *err_msg);
 int		handle_close(void *param);
 int		close_program(t_data *data, char *msg);
+void	free_textures(t_data *data);
 
 char	**split_nl(char const *s, char c);
 
-// garbage collector
+/* garbage collector */
 void	*gc_malloc(t_data *data, size_t size);
 void	gc_free_all(t_data *data);
 void	gc_free(t_data *data, void *ptr);
 
-// gc_get_next_line
+/* gc_get_next_line */
 char	*gc_gnl(t_data *data, int fd);
 
-// gc_strtrim
+/* gc_strtrim */
 char	*gc_strtrim(t_data *data, char const *s1, char const *set);
+
+/* gc_strdup */
+char	*gc_strdup(t_data *data, const char *s);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:10:05 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/06 14:58:13 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/13 14:36:26 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	load_map(t_data *data, int n)
 	}
 	data->map.map[j] = NULL;
 	data->map.n_map_lines = j;
-	//set_map_width(data);  0605A: it's happening at a later stage in the parsing now
 }
 
 int	count_lines(t_data *data, const char *filename)
@@ -90,25 +89,3 @@ int	count_lines(t_data *data, const char *filename)
 	close(fd);
 	return (lines);
 }
-
-/* void	set_map_width(t_data *game)
-{
-	int	i;
-	int	j;
-	int	width;
-
-	i = 0;
-	width = 0;
-	while (game->map.map[i])
-	{
-		j = 0;
-		while (game->map.map[i][j])
-		{
-			j++;
-			if (width <= j)
-				width++;
-		}
-		i++;
-	}
-	game->map.width = width;
-} */

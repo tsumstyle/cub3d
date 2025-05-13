@@ -6,27 +6,28 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:27:32 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/24 11:26:03 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/13 14:35:26 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+/* check map structure: map in enclosed walls
+	checking that first and last lines of the map are '1'
+ 	checking that the first and last char of each map line is 1
+	check that there is one unique player (one unique occurence of N/S/E/W)
+	check that there is no empty space next to a '0'
+BERNIE's suggestion: just check that 0 is surrounded by 1, 0, S/W/N/E; 
+or just check that there is no space and no \n next to it */
 int	check_map(char **map, int n)
 {
 	int	max_len;
 
 	max_len = get_max_line_len(map, n);
-	// check map structure: map in enclosed walls
-	// 		checking that first and last lines of the map are '1'
-	// 		checking that the first and last char of each map line is 1
-	// BERNIE's suggestion: just check that 0 is surrounded by 1, 0, S/W/N/E; or just check that there is no space and no \n next to it
 	if (check_first_last_row(map, n) != 0 || check_first_last_col(map, n) != 0)
 		return (1);
-	// check that there is one unique player (one unique occurence of N/S/E/W)
 	if (check_player(map, n) != 0)
 		return (2);
-	// check that there is no empty space next to a '0'
 	if (check_holes(map, n) != 0)
 		return (3);
 	return (0);
@@ -116,15 +117,15 @@ int	check_holes(char **map, int n)
 		j = 0;
 		while (map[i] && map[i][j])
 		{
-			if (map[i][j] == '0') // if found a walkable space
+			if (map[i][j] == '0')
 			{
-				if (!map[i - 1] || map[i - 1][j] == ' ' || map[i - 1][j] == '\0') // tile up 
+				if (!map[i - 1] || map[i - 1][j] == ' ' || !map[i - 1][j])
 					return (1);
-				if (!map[i + 1] || map[i + 1][j] == ' ' || map[i + 1][j] == '\0') // tile down
+				if (!map[i + 1] || map[i + 1][j] == ' ' || !map[i + 1][j])
 					return (1);
-				if (j > 0 && (map[i][j - 1] == ' ' || map[i][j - 1] == '\0')) // tile left
+				if (j > 0 && (map[i][j - 1] == ' ' || map[i][j - 1] == '\0'))
 					return (1);
-				if (map[i][j + 1] == ' ' || map[i][j + 1] == '\0') // tile right
+				if (map[i][j + 1] == ' ' || map[i][j + 1] == '\0')
 					return (1);
 			}
 			j++;
