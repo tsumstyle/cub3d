@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/13 14:26:44 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:51:11 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@
 
 # define MAP_OFFSET_X 10
 # define MAP_OFFSET_Y 10
-# define MINI_TILE_SIZE 16
-# define MINI_PLAYER_SIZE 8
+# define MINI_TILE_SIZE 8
+# define MINI_PLAYER_SIZE 4
 # define MINI_FLOOR_COLOR 0x444444
 # define MINI_WALL_COLOR 0xAAAAAA
 # define MINI_FOV 60 // Grad

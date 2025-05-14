@@ -6,7 +6,7 @@
 #    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/05/13 14:13:10 by aroux            ###   ########.fr        #
+#    Updated: 2025/05/14 12:08:49 by aroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,11 +70,11 @@ fclean: clean
 
 valgrind:
 	valgrind --leak-check=full \
-	./$(NAME) maps/good/our_map.cub
+	./$(NAME) maps/good/egypt.cub
 
 valfull:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-	./$(NAME) maps/good/our_map.cub
+	./$(NAME) maps/good/egypt.cub
 
 re: fclean all
 

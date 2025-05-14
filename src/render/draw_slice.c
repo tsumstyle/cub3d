@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:13:54 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/13 14:04:27 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 12:06:39 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	draw_slice(t_data *data, int slice, double wall_dist)
 	int	end;
 	int	i;
 
-	if (wall_dist < 0.0001)
-		wall_dist = 0.0001;
+	if (wall_dist < 0.1)
+		wall_dist = 0.1;
 	data->wall_height = (int)(HEIGHT / wall_dist);
 	start = -data->wall_height / 2 + HEIGHT / 2;
 	end = data->wall_height / 2 + HEIGHT / 2;
-	if (start < 0)
-		start = 0;
+	//if (start < 0)
+	//	start = 0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
 	i = start;

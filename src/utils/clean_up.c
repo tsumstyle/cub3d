@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:05:33 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/13 14:46:37 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 13:09:32 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	free_img_win_mlx(t_data *data, char *err_msg)
 		data->mlx = NULL;
 	}
 	if (err_msg)
-		perror(err_msg);
+		printf("%s", err_msg);
 }
 
 void	free_textures(t_data *data)

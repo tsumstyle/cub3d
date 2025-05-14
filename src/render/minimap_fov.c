@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:55:13 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/12 11:09:19 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 12:06:29 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,23 @@ void	draw_minimap_fov(t_data *game)
 void	draw_minimap_ray(t_data *game, double rel_angle)
 {
 	double	dir_angle;
-	double	start_x;
-	double	start_y;
 	double	len;
 	int		px;
 	int		py;
 	int		i;
 
 	i = 0;
-	dir_angle = atan2(game->player.dir_y, game->player.dir_x) + rel_angle * (PI / 180.0);
+	dir_angle = atan2(game->player.dir_y, game->player.dir_x) \
+	+ rel_angle * (PI / 180.0);
 	len = calculate_wall_distance(game, dir_angle, true);
 	if (len > MINI_RAY_LENGTH)
 		len = MINI_RAY_LENGTH;
-	start_x = MAP_OFFSET_X + game->player.x * MINI_TILE_SIZE;
-	start_y = MAP_OFFSET_Y + game->player.y * MINI_TILE_SIZE;
 	while (i < len * MINI_TILE_SIZE)
 	{
-		px = start_x + cos(dir_angle) * i;
-		py = start_y + sin(dir_angle) * i;
+		px = MAP_OFFSET_X + game->player.x * MINI_TILE_SIZE \
+						+ cos(dir_angle) * i;
+		py = MAP_OFFSET_Y + game->player.y * MINI_TILE_SIZE \
+						+ sin(dir_angle) * i;
 		put_pixel_to_image(game, px, py, 0x00FF00);
 		i++;
 	}
