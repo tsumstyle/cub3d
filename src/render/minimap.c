@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:36:24 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/14 14:39:08 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:10:29 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	draw_minimap_player_and_pov(t_data *game)
 void	put_pixel_to_image(t_data *data, int x, int y, int color)
 {
 	char	*pxl;
-	
+
 	if (!data || !data->img.addr)
 		return ;
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)

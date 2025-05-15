@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/13 14:26:49 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/15 16:03:12 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 		exit (1);
 	}
 	parser(&data, argv[1]);
-	launch_window(&data); // 0705A: we have two functions that achieve the same thing and I'm not sure why: launch_window and open_window; I changed launch_window so it's cleaner and only 25 lines
+	launch_window(&data);
 	mlx_loop_hook(data.mlx, game_loop, &data);
 	run_game(&data);
 	return (0);

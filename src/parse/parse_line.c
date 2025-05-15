@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:51:36 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/14 17:26:59 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:04:44 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	parse_line(t_data *data, char *line, int type)
 
 unsigned char	*parse_line_floor_or_ceiling(t_data *data, char *line)
 {
-	unsigned char *color;
-	
+	unsigned char	*color;
+
 	color = gc_malloc(data, 3 * sizeof(unsigned char));
 	if (!color)
-		return(NULL);
+		return (NULL);
 	line = trim_spaces(line);
 	if (*line == 'F' || *line == 'C')
 		line++;

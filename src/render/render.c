@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:30:31 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/13 14:42:54 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/15 16:10:49 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,13 @@ void	cast_ray(t_data *data, int slice)
 	double	fov;
 	double	ray_angle;
 	double	wall_dist;
-	double	offset;  //relative position in the view plane (left = -1, center = 0, right = 1).
+	double	offset;
 
 	fov = PI / 3.0;
-	offset = (2.0 * slice / (double)WIDTH) - 1.0; //range [-1, 1] : gives us a relative position in the view plane (left = -1, center = 0, right = 1).
+	offset = (2.0 * slice / (double)WIDTH) - 1.0;
 	ray_angle = data->player.angle + (offset * (fov / 2.0));
 	wall_dist = calculate_wall_distance(data, ray_angle, false);
+	data->wall_dist = wall_dist;
 	draw_slice(data, slice, wall_dist);
 }
 

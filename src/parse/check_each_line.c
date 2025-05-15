@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:15:30 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/14 16:54:08 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:04:00 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ unsigned char	is_rgb_number(char **line)
 	ptr = *line;
 	n = 0;
 	if (!ft_isdigit(*ptr))
-		return RGB_ERR;
+		return (RGB_ERR);
 	while (ft_isdigit(*ptr))
 	{
 		n = n * 10 + (*ptr - '0');

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:23:25 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/14 11:48:14 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/15 16:05:20 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ void	parser(t_data *data, const char *filename)
 	init_textures(data);
 	init_map_width_height(data, data->map.map, data->map.n_map_lines);
 	init_player(data, data->map.map, data->map.n_map_lines);
-	printf("\n"); // TODO: delete in the end
-	print_cub_file(data->map.map); // TODO: delete in the end
-	print_parsing_result(data); // TODO: delete in the end
 }
 
 int	get_max_line_len(char **map, int n)

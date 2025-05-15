@@ -6,7 +6,7 @@
 /*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:13:54 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/14 14:54:08 by bbierman         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:12:17 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	draw_slice(t_data *data, int slice, double wall_dist)
 	data->wall_height = (int)(HEIGHT / wall_dist);
 	start = -data->wall_height / 2 + HEIGHT / 2;
 	end = data->wall_height / 2 + HEIGHT / 2;
-	//if (start < 0)
-	//	start = 0;
 	if (end >= HEIGHT)
 		end = HEIGHT - 1;
 	i = start;
@@ -91,7 +89,8 @@ void	put_pixel_to_image_rgb(t_data *data, int x, int y)
 		return ;
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
 		return ;
-	pxl = (unsigned char*)data->img.addr + (y * data->img.line_len + x * (data->img.bpp / 8));
+	pxl = (unsigned char *)data->img.addr + \
+			(y * data->img.line_len + x * (data->img.bpp / 8));
 	pxl[0] = data->cal_out.r;
 	pxl[1] = data->cal_out.g;
 	pxl[2] = data->cal_out.b;
