@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_slice.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:13:54 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/14 12:06:39 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 14:54:08 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	draw_slice(t_data *data, int slice, double wall_dist)
 
 void	draw_wall_pixel(t_data *data, int x, int y, int start)
 {
-	t_img	tex;
-	int		color;
-	int		text_x;
-	int		text_y;
-	double	relative_hit_pos;
+	t_img			tex;
+	unsigned char	*color;
+	int				text_x;
+	int				text_y;
+	double			relative_hit_pos;
 
 	tex = get_texture(data);
 	if (data->wall_orient == 'N' || data->wall_orient == 'S')
@@ -62,9 +62,10 @@ void	draw_wall_pixel(t_data *data, int x, int y, int start)
 		text_y = 0;
 	if (text_y >= TEXT_HEIGHT)
 		text_y = TEXT_HEIGHT - 1;
-	color = *(unsigned int *)(tex.addr + \
+	color = (unsigned char *)(tex.addr + \
 	(text_y * tex.line_len + text_x * (tex.bpp / 8)));
-	put_pixel_to_image(data, x, y, color);
+	blend_fog_rgb(data, color);
+	put_pixel_to_image_rgb(data, x, y);
 }
 
 t_img	get_texture(t_data *data)
@@ -82,14 +83,16 @@ t_img	get_texture(t_data *data)
 	return (texture);
 }
 
-void	put_pixel_to_image(t_data *data, int x, int y, int color)
+void	put_pixel_to_image_rgb(t_data *data, int x, int y)
 {
-	char	*pxl;
+	unsigned char	*pxl;
 
 	if (!data || !data->img.addr)
 		return ;
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
 		return ;
-	pxl = data->img.addr + (y * data->img.line_len + x * (data->img.bpp / 8));
-	*(unsigned int *)pxl = color;
+	pxl = (unsigned char*)data->img.addr + (y * data->img.line_len + x * (data->img.bpp / 8));
+	pxl[0] = data->cal_out.r;
+	pxl[1] = data->cal_out.g;
+	pxl[2] = data->cal_out.b;
 }

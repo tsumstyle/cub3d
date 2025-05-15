@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_each_line.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:15:30 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/24 13:53:48 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 16:54:08 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	get_line_type(char *line)
 		return (L_ERROR);
 }
 
-int	is_rgb_number(char **line)
+unsigned char	is_rgb_number(char **line)
 {
 	int		n;
 	char	*ptr;
@@ -79,7 +79,7 @@ int	is_rgb_number(char **line)
 	ptr = *line;
 	n = 0;
 	if (!ft_isdigit(*ptr))
-		return (-1);
+		return RGB_ERR;
 	while (ft_isdigit(*ptr))
 	{
 		n = n * 10 + (*ptr - '0');
@@ -88,7 +88,7 @@ int	is_rgb_number(char **line)
 	if (n > 255)
 		return (-1);
 	*line = ptr;
-	return (n);
+	return ((unsigned char)n);
 }
 
 char	*trim_spaces(char *str)

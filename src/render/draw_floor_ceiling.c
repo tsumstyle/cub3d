@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   draw_floor_ceiling.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 10:28:34 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/14 11:49:43 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 16:25:27 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_floor_ceiling(t_data *data, int slice, int start, int end)
+/*void	draw_floor_ceiling(t_data *data, int slice, int start, int end)
 {
 	int	y;
 
@@ -22,4 +22,4 @@ void	draw_floor_ceiling(t_data *data, int slice, int start, int end)
 	y = end;
 	while (y < HEIGHT)
 		put_pixel_to_image(data, slice, y++, data->floor_color);
-}
+}*/

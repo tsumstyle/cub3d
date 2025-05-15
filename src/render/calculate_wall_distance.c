@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculate_wall_distance.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:54:10 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/13 14:05:12 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 14:22:28 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ double	calculate_wall_distance(t_data *data, double ray_angle, bool minimap)
 	}
 	store_hit_coordinates(data, ray_x, ray_y, ray_angle);
 	fisheye_correction(data, &wall_dist, ray_angle, minimap);
+	data->wall_dist = wall_dist;
 	return (wall_dist);
 }
 

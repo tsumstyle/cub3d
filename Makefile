@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
+#    By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/05/14 12:08:49 by aroux            ###   ########.fr        #
+#    Updated: 2025/05/14 14:56:05 by bbierman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC = src/main.c \
 	src/parse/init_player.c 		src/parse/init_textures_and_map.c \
 	src/render/minimap.c			src/render/minimap_fov.c	src/render/render.c			\
 	src/render/calculate_wall_distance.c						src/render/draw_slice.c	\
-	src/render/draw_floor_ceiling.c	\
+	src/render/draw_floor_ceiling.c								src/render/fog.c \
 	src/utils/clean_up.c			src/utils/split_nl.c 		src/utils/gc_get_next_line.c \
 	src/utils/gc_strtrim.c 			src/utils/gc.c				src/utils/gc_strdup.c
 

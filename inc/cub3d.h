@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/14 11:51:11 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:11:58 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,15 @@
 # include <stdio.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
+# include <limits.h> 
 
 
 /***************/
 /* 	 MACROS	   */
 /***************/
 /* MACROS: general */
+# define RGB_ERR  UCHAR_MAX
+
 # define WIDTH 1280
 # define HEIGHT 720
 # define TEXT_WIDTH	64
@@ -53,10 +56,12 @@
 # define MINI_PLAYER_SIZE 4
 # define MINI_FLOOR_COLOR 0x444444
 # define MINI_WALL_COLOR 0xAAAAAA
-# define MINI_FOV 60 // Grad
-# define MINI_RAY_STEP 2 // Abstand zwischen den Linien
-# define MINI_RAY_LENGTH 8 // in Mapfeldern
+# define MINI_FOV 60
+# define MINI_RAY_STEP 2
+# define MINI_RAY_LENGTH 8
 
+# define FOG_DISTANCE 8.0
+# define FOG_COLOR 0x00
 
 /* MACROS: linux keys */
 # define ESC XK_Escape
@@ -106,11 +111,18 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
+typedef struct s_rgb
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}	t_rgb;
+
 typedef struct s_player
 {
 	double	x;
 	double	y;
-	double	angle; 		// 0605A: added the player's angle (in radians) to facilitate ray casting
+	double	angle;
 	double	dir_x;
 	double	dir_y;
 	double	plane_x;
@@ -145,8 +157,8 @@ typedef struct s_data
 	int			bpp;
 	int			line_len;
 	int			endian;
-	int			floor_color;
-	int			ceiling_color;
+	unsigned char	*floor_color;
+	unsigned char	*ceiling_color;
 	char		*path_wall_n;
 	char		*path_wall_s;
 	char		*path_wall_w;
@@ -159,8 +171,12 @@ typedef struct s_data
 	double		wall_hit_y;
 	char		wall_orient;
 	int			wall_height;
+	double		wall_dist;
 	t_map		map;
 	t_player	player;
+	t_rgb		cal_out;
+	t_rgb		fog;
+	t_rgb		orig;
 }		t_data;
 
 /****************/
@@ -209,10 +225,10 @@ void	load_map(t_data *data, int n);
 int		count_lines(t_data *data, const char *filename);
 
 /*  check each line  */
-int		check_each_line(t_data *data, int n);
-int		get_line_type(char *line);
-int		is_rgb_number(char **line);
-char	*trim_spaces(char *str);
+int				check_each_line(t_data *data, int n);
+int				get_line_type(char *line);
+unsigned char	is_rgb_number(char **line);
+char			*trim_spaces(char *str);
 
 /*  check line is valid  */
 int		check_line_is_valid(char *line, int type);
@@ -222,8 +238,7 @@ int		check_line_ceiling(char *line);
 
 /* parse line */
 void	parse_line(t_data *data, char *line, int type);
-void	parse_line_floor(t_data *data, char *line);
-void	parse_line_ceiling(t_data *data, char *line);
+unsigned char	*parse_line_floor_or_ceiling(t_data *data, char *line);
 void	parse_line_texture(t_data *data, char *line, int type);
 
 /* check map is last */
@@ -257,6 +272,7 @@ void	print_parsing_result(t_data *data);
 void	draw_minimap(t_data *game);
 void	draw_square(t_data *game, int x, int y, int color);
 void	draw_minimap_player_and_pov(t_data *game);
+void    put_pixel_to_image(t_data *data, int x, int y, int color);
 
 /*  minimap FOV */
 void	draw_minimap_fov(t_data *game);
@@ -279,7 +295,12 @@ void	fisheye_correction(t_data *data, double *wall_dist, double ray_angle, \
 void	draw_slice(t_data *data, int slice, double wall_dist);
 void	draw_wall_pixel(t_data *data, int x, int y, int start);
 t_img	get_texture(t_data *data);
-void	put_pixel_to_image(t_data *data, int x, int y, int color);
+void	put_pixel_to_image_rgb(t_data *data, int x, int y);
+
+/*  fog  */
+void	blend_fog_rgb(t_data *data, unsigned char *color);
+void	blend_fog_rgb_ceiling(t_data *data, unsigned char *p, double y, double start);
+void	blend_fog_rgb_floor(t_data *data, unsigned char *p, double y, double end);
 
 /*  draw walls ceiling  */
 void	draw_floor_ceiling(t_data *data, int slice, int start, int end);

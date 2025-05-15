@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_line_is_valid.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:43:18 by aroux             #+#    #+#             */
-/*   Updated: 2025/03/24 14:04:56 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 16:55:35 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,19 @@ int	check_line_floor(char *line)
 	if (!*line || *line != ' ')
 		return (1);
 	line = trim_spaces(line);
-	if (is_rgb_number(&line) == -1)
+	if (is_rgb_number(&line) == RGB_ERR)
 		return (1);
 	if (*line != ',')
 		return (1);
 	line++;
 	line = trim_spaces(line);
-	if (is_rgb_number(&line) == -1)
+	if (is_rgb_number(&line) == RGB_ERR)
 		return (1);
 	if (*line != ',')
 		return (1);
 	line++;
 	line = trim_spaces(line);
-	if (is_rgb_number(&line) == -1)
+	if (is_rgb_number(&line) == RGB_ERR)
 		return (1);
 	line = trim_spaces(line);
 	if (*line == '\n')
@@ -80,19 +80,19 @@ int	check_line_ceiling(char *line)
 	if (!*line || *line != ' ')
 		return (1);
 	line = trim_spaces(line);
-	if (is_rgb_number(&line) == -1)
+	if (is_rgb_number(&line) == RGB_ERR)
 		return (1);
 	if (*line != ',')
 		return (1);
 	line++;
 	line = trim_spaces(line);
-	if (is_rgb_number(&line) == -1)
+	if (is_rgb_number(&line) == RGB_ERR)
 		return (1);
 	if (*line != ',')
 		return (1);
 	line++;
 	line = trim_spaces(line);
-	if (is_rgb_number(&line) == -1)
+	if (is_rgb_number(&line) == RGB_ERR)
 		return (1);
 	line = trim_spaces(line);
 	if (*line == '\n')

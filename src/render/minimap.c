@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: bbierman <bbierman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:36:24 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/13 14:40:14 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 14:39:08 by bbierman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,16 @@ void	draw_minimap_player_and_pov(t_data *game)
 	pov_y = p_y + game->player.dir_y * MINI_TILE_SIZE * 2;
 	draw_square_pixel(game, p_x - MINI_PLAYER_SIZE / 2, \
 	p_y - MINI_PLAYER_SIZE / 2, 0xFF0000);
+}
+
+void	put_pixel_to_image(t_data *data, int x, int y, int color)
+{
+	char	*pxl;
+	
+	if (!data || !data->img.addr)
+		return ;
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
+	pxl = data->img.addr + (y * data->img.line_len + x * (data->img.bpp / 8));
+	*(unsigned int *)pxl = color;
 }
