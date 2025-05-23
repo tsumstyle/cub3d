@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:11:32 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/14 11:48:09 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 14:13:42 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_textures(t_data *data)
 	init_img_struct(data, &data->text_s, data->path_wall_s);
 	init_img_struct(data, &data->text_e, data->path_wall_e);
 	init_img_struct(data, &data->text_w, data->path_wall_w);
+	init_sprite_textures(data);
 }
 
 void	init_img_struct(t_data *data, t_img *text_img, char *path)
@@ -57,3 +58,4 @@ void	init_map_width_height(t_data *data, char **map, int n)
 	}
 	data->map.width = max_width;
 }
+

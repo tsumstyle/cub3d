@@ -6,7 +6,7 @@
 #    By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/21 11:17:11 by aroux             #+#    #+#              #
-#    Updated: 2025/05/14 12:08:49 by aroux            ###   ########.fr        #
+#    Updated: 2025/05/16 10:53:30 by aroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,10 @@ SRC = src/main.c \
 	src/parse/print_cub_file.c		src/parse/check_each_line.c src/parse/check_line_is_valid.c \
 	src/parse/check_map_last.c		src/parse/check_map.c       src/parse/parse_line.c      \
 	src/parse/init_player.c 		src/parse/init_textures_and_map.c \
+	src/parse/check_sprites.c		src/parse/init_sprites.c \
 	src/render/minimap.c			src/render/minimap_fov.c	src/render/render.c			\
-	src/render/calculate_wall_distance.c						src/render/draw_slice.c	\
-	src/render/draw_floor_ceiling.c	\
+	src/render/calculate_wall_distance.c	src/render/fog.c	src/render/draw_slice.c	\
+	src/render/draw_floor_ceiling.c	src/render/update_sprites.c	src/render/draw_sprites.c \
 	src/utils/clean_up.c			src/utils/split_nl.c 		src/utils/gc_get_next_line.c \
 	src/utils/gc_strtrim.c 			src/utils/gc.c				src/utils/gc_strdup.c
 

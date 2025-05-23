@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:27:32 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/13 14:35:26 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 13:33:41 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_map(char **map, int n)
 		return (1);
 	if (check_player(map, n) != 0)
 		return (2);
-	if (check_holes(map, n) != 0)
+	if (check_holes(map, n) != 0 || check_sprites(map, n) != 0)
 		return (3);
 	return (0);
 }

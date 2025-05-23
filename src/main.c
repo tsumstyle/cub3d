@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:20 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/13 14:26:49 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/15 16:34:32 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,7 @@ void	data_init(t_data *data)
 {
 	ft_bzero(data, sizeof(*data));
 	data->line_len = WIDTH;
+	data->z_buffer = gc_malloc(data, sizeof(double) * WIDTH);
+	if (!data->z_buffer)
+		clean_exit(data, "Failed to allocate z_buffer\n");
 }

@@ -6,13 +6,13 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 10:28:34 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/14 11:49:43 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/16 10:52:52 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_floor_ceiling(t_data *data, int slice, int start, int end)
+/* void	draw_floor_ceiling(t_data *data, int slice, int start, int end)
 {
 	int	y;
 
@@ -23,3 +23,4 @@ void	draw_floor_ceiling(t_data *data, int slice, int start, int end)
 	while (y < HEIGHT)
 		put_pixel_to_image(data, slice, y++, data->floor_color);
 }
+ */

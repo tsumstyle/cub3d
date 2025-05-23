@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:17:16 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/14 11:51:11 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/16 10:57:53 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,16 @@
 # define MINI_RAY_STEP 2 // Abstand zwischen den Linien
 # define MINI_RAY_LENGTH 8 // in Mapfeldern
 
+# define FOG_DISTANCE 8.0
+# define FOG_COLOR 0x00
+
+# define MAX_SPRITES 30
+# define COLUMN_TEXT 0
+# define MUMMY_CALM_TEXT 1
+# define MUMMY_ANGRY_TEXT 2
+# define TORCH_TEXT_1 3
+# define TORCH_TEXT_2 4
+# define MAX_TEXTURES 20
 
 /* MACROS: linux keys */
 # define ESC XK_Escape
@@ -106,11 +116,18 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
+typedef struct s_rgb
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}	t_rgb;
+
 typedef struct s_player
 {
 	double	x;
 	double	y;
-	double	angle; 		// 0605A: added the player's angle (in radians) to facilitate ray casting
+	double	angle;
 	double	dir_x;
 	double	dir_y;
 	double	plane_x;
@@ -119,6 +136,14 @@ typedef struct s_player
 	double	rot_speed;
 	char	orientation;
 }		t_player;
+
+typedef struct s_sprite
+{
+	double	x;
+	double	y;
+	int		texture_id;
+	double	distance;
+}		t_sprite;
 
 /* parsing: type of line in the .cub file */
 typedef enum t_line
@@ -145,8 +170,8 @@ typedef struct s_data
 	int			bpp;
 	int			line_len;
 	int			endian;
-	int			floor_color;
-	int			ceiling_color;
+	unsigned char	*floor_color;
+	unsigned char	*ceiling_color;
 	char		*path_wall_n;
 	char		*path_wall_s;
 	char		*path_wall_w;
@@ -159,15 +184,22 @@ typedef struct s_data
 	double		wall_hit_y;
 	char		wall_orient;
 	int			wall_height;
+	double		wall_dist;
 	t_map		map;
 	t_player	player;
+	t_sprite	sprites[MAX_SPRITES];
+	t_img		textures[MAX_TEXTURES];
+	int			sprite_count;
+	double		*z_buffer;
+	t_rgb			cal_out;
+	t_rgb			fog;
+	t_rgb			orig;
 }		t_data;
 
 /****************/
 /*  PROTOTYPES  */
 /****************/
 void	data_init(t_data *data);
-
 
 /**********/
 /*  GAME  */
@@ -201,6 +233,7 @@ int		check_command_line_arguments(int argc, char **argv);
 
 /*  parser  */
 void	parser(t_data *data, const char *filename);
+void	init_game_parameters(t_data *data, char **map, int n);
 int		get_max_line_len(char **map, int n);
 
 /* load cub file */
@@ -222,8 +255,7 @@ int		check_line_ceiling(char *line);
 
 /* parse line */
 void	parse_line(t_data *data, char *line, int type);
-void	parse_line_floor(t_data *data, char *line);
-void	parse_line_ceiling(t_data *data, char *line);
+unsigned char	*parse_line_floor_or_ceiling(t_data *data, char *line);
 void	parse_line_texture(t_data *data, char *line, int type);
 
 /* check map is last */
@@ -246,6 +278,18 @@ void	init_map_width_height(t_data *data, char **map, int n);
 void	init_textures(t_data *data);
 void	init_img_struct(t_data *data, t_img *text_img, char *path);
 
+/* init_sprites */
+void	init_sprites(t_data *data, char **map, int n);
+void	set_texture_id(t_data *data, char c);
+void	init_sprite_textures(t_data *data);
+t_img	ft_load_xpm(t_data *data, const char *path);
+
+/* check sprites */
+int		check_sprites(char **map, int n);
+int		check_mummy(char **map, int n);
+int		check_column(char **map, int n);
+int		check_torch(char **map, int n);
+
 /*  PRINT  */
 void	print_cub_file(char **arr);
 void	print_parsing_result(t_data *data);
@@ -257,6 +301,7 @@ void	print_parsing_result(t_data *data);
 void	draw_minimap(t_data *game);
 void	draw_square(t_data *game, int x, int y, int color);
 void	draw_minimap_player_and_pov(t_data *game);
+void	put_pixel_to_image(t_data *data, int x, int y, int color);
 
 /*  minimap FOV */
 void	draw_minimap_fov(t_data *game);
@@ -280,9 +325,25 @@ void	draw_slice(t_data *data, int slice, double wall_dist);
 void	draw_wall_pixel(t_data *data, int x, int y, int start);
 t_img	get_texture(t_data *data);
 void	put_pixel_to_image(t_data *data, int x, int y, int color);
+void	put_pixel_to_image_rgb(t_data *data, int x, int y);
 
 /*  draw walls ceiling  */
 void	draw_floor_ceiling(t_data *data, int slice, int start, int end);
+
+/*  fog  */
+void			blend_fog_rgb(t_data *data, unsigned char *color);
+void			blend_fog_rgb_ceiling(t_data *data, unsigned char *p, \
+				double y, double start);
+void			blend_fog_rgb_floor(t_data *data, unsigned char *p, double y, \
+				double end);
+
+/* update sprites */
+void	update_sprites(t_data *data);
+void	sort_sprites_by_distance(t_sprite *sprites, int	n);
+
+/* draw sprites */
+void	draw_sprites(t_data *data);
+void	render_each_sprite(t_data *data, t_sprite *sprite);
 
 /***********/
 /*  UTILS  */

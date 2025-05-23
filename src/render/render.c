@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 14:30:31 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/13 14:42:54 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/16 11:05:44 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	render_game(t_data *data)
 		cast_ray(data, slice);
 		slice++;
 	}
+	update_sprites(data);
+	draw_sprites(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.ptr, 0, 0);
 	return (0);
 }
@@ -46,6 +48,8 @@ void	cast_ray(t_data *data, int slice)
 	offset = (2.0 * slice / (double)WIDTH) - 1.0; //range [-1, 1] : gives us a relative position in the view plane (left = -1, center = 0, right = 1).
 	ray_angle = data->player.angle + (offset * (fov / 2.0));
 	wall_dist = calculate_wall_distance(data, ray_angle, false);
+	data->wall_dist = wall_dist;
+	data->z_buffer[slice] = wall_dist;
 	draw_slice(data, slice, wall_dist);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:51:21 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/13 14:27:03 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 14:27:16 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	launch_window(t_data *data)
 
 int	game_loop(t_data *game)
 {
+	update_sprites(game);
 	render_game(game);
 	draw_minimap(game);
 	return (0);

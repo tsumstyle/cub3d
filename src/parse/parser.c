@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:23:25 by bbierman          #+#    #+#             */
-/*   Updated: 2025/05/14 11:48:14 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/14 13:52:11 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,19 @@ void	parser(t_data *data, const char *filename)
 	if (check_map(data->map.map, data->map.n_map_lines) == 1)
 		clean_exit(data, "Error\nInvalid map: Should have enclosed walls\n");
 	if (check_map(data->map.map, data->map.n_map_lines) == 2)
-		clean_exit(data, "Error\nInvalid map: Should have one unique \
-			player\n");
+		clean_exit(data, "Error\nInvalid map: Should have 1 unique player\n");
+	if (check_map(data->map.map, data->map.n_map_lines) == 3)
+		clean_exit(data, "Error\nInvalid map: holes or invalid \
+		sprite position\n");
+	init_game_parameters(data, data->map.map, data->map.n_map_lines);
+}
+
+void	init_game_parameters(t_data *data, char **map, int n)
+{
 	init_textures(data);
-	init_map_width_height(data, data->map.map, data->map.n_map_lines);
-	init_player(data, data->map.map, data->map.n_map_lines);
-	printf("\n"); // TODO: delete in the end
-	print_cub_file(data->map.map); // TODO: delete in the end
-	print_parsing_result(data); // TODO: delete in the end
+	init_map_width_height(data, map, n);
+	init_player(data, map, n);
+	init_sprites(data, map, n);
 }
 
 int	get_max_line_len(char **map, int n)
@@ -63,3 +68,4 @@ int	get_max_line_len(char **map, int n)
 	}
 	return (max_len);
 }
+
