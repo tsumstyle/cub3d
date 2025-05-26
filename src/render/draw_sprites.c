@@ -6,7 +6,7 @@
 /*   By: aroux <aroux@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:57:53 by aroux             #+#    #+#             */
-/*   Updated: 2025/05/16 14:16:29 by aroux            ###   ########.fr       */
+/*   Updated: 2025/05/26 10:31:40 by aroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,6 @@ void	render_each_sprite(t_data *data, t_sprite *sprite)
 				int tex_y = ((d * TEXT_HEIGHT) / sprite_height) / 256;
 
 				int color = *(unsigned int *)(tex.addr + (tex_y * tex.line_len + tex_x * (tex.bpp / 8)));
-	
-				if (y == start_y && stripe == start_x)
-					printf("First pixel color: %#010x\n", color);
 				// Skip transparent pixels (e.g., magenta)
 				//if ((color & 0x00FFFFFF) != 0xff000000)
 				//if ((unsigned int)color != 0xFFFF00FF)
